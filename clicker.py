@@ -55,8 +55,64 @@ def format_number(num):
         return f"{num/1000000000000:.2f}T".rstrip('0').rstrip('.')
     elif num < 1000000000000000000:
         return f"{num/1000000000000000:.2f}Q".rstrip('0').rstrip('.')
+    elif num < 10**21:
+        return f"{num/10**18:.2f}S".rstrip('0').rstrip('.')
+    elif num < 10**24:
+        return f"{num/10**21:.2f}O".rstrip('0').rstrip('.')
+    elif num < 10**27:
+        return f"{num/10**24:.2f}N".rstrip('0').rstrip('.')
+    elif num < 10**30:
+        return f"{num/10**27:.2f}D".rstrip('0').rstrip('.')
+    elif num < 10**33:
+        return f"{num/10**30:.2f}U".rstrip('0').rstrip('.')
+    elif num < 10**36:
+        return f"{num/10**33:.2f}T".rstrip('0').rstrip('.')
+    elif num < 10**39:
+        return f"{num/10**36:.2f}Qt".rstrip('0').rstrip('.')
+    elif num < 10**42:
+        return f"{num/10**39:.2f}Qn".rstrip('0').rstrip('.')
+    elif num < 10**45:
+        return f"{num/10**42:.2f}Sx".rstrip('0').rstrip('.')
+    elif num < 10**48:
+        return f"{num/10**45:.2f}Sp".rstrip('0').rstrip('.')
+    elif num < 10**51:
+        return f"{num/10**48:.2f}Oc".rstrip('0').rstrip('.')
+    elif num < 10**54:
+        return f"{num/10**51:.2f}No".rstrip('0').rstrip('.')
+    elif num < 10**57:
+        return f"{num/10**54:.2f}Dc".rstrip('0').rstrip('.')
+    elif num < 10**60:
+        return f"{num/10**57:.2f}Ud".rstrip('0').rstrip('.')
+    elif num < 10**63:
+        return f"{num/10**60:.2f}Td".rstrip('0').rstrip('.')
+    elif num < 10**66:
+        return f"{num/10**63:.2f}Qad".rstrip('0').rstrip('.')
+    elif num < 10**69:
+        return f"{num/10**66:.2f}Qid".rstrip('0').rstrip('.')
+    elif num < 10**72:
+        return f"{num/10**69:.2f}Sxd".rstrip('0').rstrip('.')
+    elif num < 10**75:
+        return f"{num/10**72:.2f}Spd".rstrip('0').rstrip('.')
+    elif num < 10**78:
+        return f"{num/10**75:.2f}Ocd".rstrip('0').rstrip('.')
+    elif num < 10**81:
+        return f"{num/10**78:.2f}Nod".rstrip('0').rstrip('.')
+    elif num < 10**84:
+        return f"{num/10**81:.2f}Dcd".rstrip('0').rstrip('.')
+    elif num < 10**87:
+        return f"{num/10**84:.2f}Udd".rstrip('0').rstrip('.')
+    elif num < 10**90:
+        return f"{num/10**87:.2f}Tdd".rstrip('0').rstrip('.')
+    elif num < 10**93:
+        return f"{num/10**90:.2f}Qadd".rstrip('0').rstrip('.')
+    elif num < 10**96:
+        return f"{num/10**93:.2f}Qidd".rstrip('0').rstrip('.')
+    elif num < 10**99:
+        return f"{num/10**96:.2f}Sxdd".rstrip('0').rstrip('.')
+    elif num < 10**100:
+        return f"{num/10**99:.2f}Spdd".rstrip('0').rstrip('.')
     else:
-        return f"{num/1000000000000000000:.2f}S".rstrip('0').rstrip('.')
+        return f"{num/10**99:.2f}Googol".rstrip('0').rstrip('.')
 
 class Button:
     def __init__(self, x, y, width, height, text, color, hover_color, text_color=WHITE, border_color=GOLD):
