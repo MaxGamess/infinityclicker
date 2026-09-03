@@ -31,9 +31,9 @@ def load_data():
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except:
-            return {'money': 0, 'multiplier': 0, 'click_count': 0}
+            return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 'passive_level': 0}
     else:
-        return {'money': 0, 'multiplier': 0, 'click_count': 0}
+        return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 'passive_level': 0}
 
 def save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
@@ -41,6 +41,11 @@ def save_data(data):
 
 def get_upgrade_cost(multiplier):
     return math.ceil(multiplier * 100 * (multiplier / 2))
+
+def get_passive_cost(level):
+    if level == 0:
+        return 100
+    return math.ceil(level * 100 * (level / 2))
 
 def format_number(num):
     if num < 1000:
@@ -147,8 +152,6 @@ class Button:
             if self.is_hovered:
                 if event.button == 1:
                     return 'click'
-                elif event.button == 3:
-                    return 'upgrade'
         return None
 
 class ClickerGame:
@@ -165,8 +168,11 @@ class ClickerGame:
         self.money = self.data['money']
         self.multiplier = self.data['multiplier']
         self.click_count = self.data['click_count']
+        self.passive_income = self.data['passive_income']
+        self.passive_level = self.data['passive_level']
         
         self.floating_texts = []
+        self.passive_timer = 0
         
         self.create_buttons()
         
@@ -183,6 +189,18 @@ class ClickerGame:
             BROWN,
             WHITE,
             GOLD
+        )
+        
+        self.passive_button = Button(
+            WINDOW_WIDTH//2 - 100,
+            520 + OFFSET_Y,
+            200,
+            50,
+            "",
+            GOLD,
+            LIGHT_GOLD,
+            BLACK,
+            DARK_GOLD
         )
         
     def add_floating_text(self, x, y, text, color=GOLD):
@@ -242,13 +260,53 @@ class ClickerGame:
                 RED
             )
             return False
+    
+    def handle_passive_purchase(self):
+        cost = get_passive_cost(self.passive_level)
+        
+        if self.money >= cost:
+            self.money -= cost
+            self.passive_level += 1
+            self.passive_income += 1
+            self.data_changed = True
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                500 + OFFSET_Y,
+                f"Доход +1/сек!",
+                GREEN
+            )
+            return True
+        else:
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                500 + OFFSET_Y,
+                f"Нужно: {format_number(cost)}",
+                RED
+            )
+            return False
+            
+    def update_passive_income(self):
+        if self.passive_income > 0:
+            self.passive_timer += 1
+            if self.passive_timer >= FPS:
+                self.money += self.passive_income
+                self.passive_timer = 0
+                self.data_changed = True
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    200 + OFFSET_Y,
+                    f"+{self.passive_income}",
+                    GOLD
+                )
             
     def save_game(self):
         if self.data_changed:
             self.data = {
                 'money': self.money,
                 'multiplier': self.multiplier,
-                'click_count': self.click_count
+                'click_count': self.click_count,
+                'passive_income': self.passive_income,
+                'passive_level': self.passive_level
             }
             save_data(self.data)
             self.data_changed = False
@@ -268,12 +326,12 @@ class ClickerGame:
         self.screen.blit(click_info, click_rect)
         
         earnings = 1 + self.multiplier
-        earnings_text = self.font_small.render(f"+{earnings} за клик", True, GOLD)
-        earnings_rect = earnings_text.get_rect(center=(WINDOW_WIDTH//2, 150 + OFFSET_Y))
+        earnings_text = self.font_small.render(f"+{earnings} за клик / +{self.passive_income} в сек", True, GOLD)
+        earnings_rect = earnings_text.get_rect(center=(WINDOW_WIDTH//2, 145 + OFFSET_Y))
         self.screen.blit(earnings_text, earnings_rect)
         
         level_text = self.font_small.render(f"Уровень: {self.multiplier}", True, (180, 180, 180))
-        level_rect = level_text.get_rect(center=(WINDOW_WIDTH//2, 185 + OFFSET_Y))
+        level_rect = level_text.get_rect(center=(WINDOW_WIDTH//2, 175 + OFFSET_Y))
         self.screen.blit(level_text, level_rect)
         
     def draw_clicker_tab(self):
@@ -287,8 +345,13 @@ class ClickerGame:
         self.screen.blit(cost_text, cost_rect)
         
         hint = self.font_tiny.render("ЛКМ - заработок", True, (150, 150, 150))
-        hint_rect = hint.get_rect(center=(WINDOW_WIDTH//2, 470 + OFFSET_Y))
+        hint_rect = hint.get_rect(center=(WINDOW_WIDTH//2, 465 + OFFSET_Y))
         self.screen.blit(hint, hint_rect)
+        
+        passive_cost = get_passive_cost(self.passive_level)
+        passive_button_text = f"Купить доход: {format_number(passive_cost)}"
+        self.passive_button.text = passive_button_text
+        self.passive_button.draw(self.screen, self.font_tiny)
         
     def draw_background(self):
         for i in range(WINDOW_HEIGHT):
@@ -308,10 +371,19 @@ class ClickerGame:
                 action = self.click_button.handle_event(event)
                 if action == 'click':
                     self.handle_click()
-                elif action == 'upgrade':
-                    self.handle_upgrade()
+                
+                upgrade_action = self.click_button.handle_event(event)
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if self.click_button.is_hovered:
+                        if event.button == 3:
+                            self.handle_upgrade()
+                
+                passive_action = self.passive_button.handle_event(event)
+                if passive_action == 'click':
+                    self.handle_passive_purchase()
                         
             self.update_floating_texts()
+            self.update_passive_income()
             
             self.draw_background()
             
