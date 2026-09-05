@@ -384,7 +384,6 @@ class ShopItem:
         self.is_hovered = False
         
     def draw(self, surface, font_tiny, texture):
-        # Тень
         shadow_rect = self.rect.copy()
         shadow_rect.x += 2
         shadow_rect.y += 2
@@ -401,6 +400,7 @@ class ShopItem:
             tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 5))
             surface.blit(texture, tex_rect)
         
+        # Цена снизу
         price = ITEMS[self.item_id]['price']
         price_text = font_tiny.render(format_number(price), True, GOLD)
         price_rect = price_text.get_rect(center=(self.rect.centerx, self.rect.bottom - 10))
@@ -424,6 +424,7 @@ class InventorySlot:
         self.texture = None
         
     def draw(self, surface, font):
+        # Фон слота
         pygame.draw.rect(surface, DARK_GRAY, self.rect, border_radius=5)
         pygame.draw.rect(surface, GRAY, self.rect, 2, border_radius=5)
         
@@ -449,6 +450,7 @@ class CraftButton:
         self.is_hovered = False
         
     def draw(self, surface, font):
+        # Стиль как у слотов
         shadow_rect = self.rect.copy()
         shadow_rect.x += 2
         shadow_rect.y += 2
@@ -535,7 +537,6 @@ class ClickerGame:
         self.passive_level = self.data['passive_level']
         self.inventory = self.data.get('inventory', [])
         
-        # Загрузка текстур
         self.textures = {}
         self.load_textures()
         
@@ -557,6 +558,7 @@ class ClickerGame:
         self.apply_item_bonuses()
         
     def sort_inventory_by_rarity(self):
+        """Сортирует инвентарь по редкости (от самого редкого к самому частому)"""
         item_counts = {}
         for item_id in self.inventory:
             if item_id not in item_counts:
@@ -709,9 +711,11 @@ class ClickerGame:
                 slot.texture = self.textures.get(slot.item)
     
     def get_all_slots(self):
+        """Возвращает все слоты (инвентарь + крафт)"""
         return self.inv_grid_slots + self.inventory_slots
     
     def sync_inventory_from_slots(self):
+        """Синхронизирует список инвентаря с содержимым слотов"""
         new_inventory = []
         for slot in self.inv_grid_slots:
             if slot.item is not None:
@@ -720,6 +724,7 @@ class ClickerGame:
         self.data_changed = True
         
     def buy_item(self, item_id):
+        """Покупает предмет в магазине"""
         if item_id not in ITEMS:
             return False
         
@@ -748,6 +753,7 @@ class ClickerGame:
             return False
         
     def craft_items(self):
+        """Совмещает предметы в слотах крафта"""
         items_in_slots = {}
         craft_slots_with_items = []
         
@@ -803,6 +809,7 @@ class ClickerGame:
         
         if not crafted:
             max_count = max(items_in_slots.values()) if items_in_slots else 0
+            if max_count < 3:
                 self.add_floating_text(
                     WINDOW_WIDTH//2,
                     570 + OFFSET_Y,
@@ -836,6 +843,7 @@ class ClickerGame:
         self.data_changed = True
         
     def find_nearest_empty_slot(self, mouse_pos):
+        """Находит ближайший пустой слот"""
         all_slots = self.get_all_slots()
         nearest_slot = None
         min_dist = float('inf')
@@ -851,6 +859,7 @@ class ClickerGame:
         return nearest_slot
     
     def get_slot_index(self, slot):
+        """Возвращает индекс слота в общем списке"""
         all_slots = self.get_all_slots()
         for i, s in enumerate(all_slots):
             if s is slot:
@@ -1080,7 +1089,6 @@ class ClickerGame:
         self.passive_button.draw(self.screen, self.font_tiny)
         
     def draw_shop_tab(self):
-        # Заголовок
         title = self.font_medium.render("МАГАЗИН", True, GOLD)
         title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
         self.screen.blit(title, title_rect)
@@ -1098,6 +1106,7 @@ class ClickerGame:
         self.screen.blit(hint, hint_rect)
         
     def draw_item_bonuses(self):
+        """Рисует бонусы предметов в правом верхнем углу"""
         if not self.inventory:
             return
         
