@@ -558,7 +558,6 @@ class ClickerGame:
         self.apply_item_bonuses()
         
     def sort_inventory_by_rarity(self):
-        """Сортирует инвентарь по редкости (от самого редкого к самому частому)"""
         item_counts = {}
         for item_id in self.inventory:
             if item_id not in item_counts:
@@ -711,11 +710,9 @@ class ClickerGame:
                 slot.texture = self.textures.get(slot.item)
     
     def get_all_slots(self):
-        """Возвращает все слоты (инвентарь + крафт)"""
         return self.inv_grid_slots + self.inventory_slots
     
     def sync_inventory_from_slots(self):
-        """Синхронизирует список инвентаря с содержимым слотов"""
         new_inventory = []
         for slot in self.inv_grid_slots:
             if slot.item is not None:
@@ -724,7 +721,6 @@ class ClickerGame:
         self.data_changed = True
         
     def buy_item(self, item_id):
-        """Покупает предмет в магазине"""
         if item_id not in ITEMS:
             return False
         
@@ -753,7 +749,6 @@ class ClickerGame:
             return False
         
     def craft_items(self):
-        """Совмещает предметы в слотах крафта"""
         items_in_slots = {}
         craft_slots_with_items = []
         
@@ -843,7 +838,6 @@ class ClickerGame:
         self.data_changed = True
         
     def find_nearest_empty_slot(self, mouse_pos):
-        """Находит ближайший пустой слот"""
         all_slots = self.get_all_slots()
         nearest_slot = None
         min_dist = float('inf')
@@ -859,7 +853,6 @@ class ClickerGame:
         return nearest_slot
     
     def get_slot_index(self, slot):
-        """Возвращает индекс слота в общем списке"""
         all_slots = self.get_all_slots()
         for i, s in enumerate(all_slots):
             if s is slot:
@@ -1106,7 +1099,6 @@ class ClickerGame:
         self.screen.blit(hint, hint_rect)
         
     def draw_item_bonuses(self):
-        """Рисует бонусы предметов в правом верхнем углу"""
         if not self.inventory:
             return
         
