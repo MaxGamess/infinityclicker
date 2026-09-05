@@ -54,6 +54,16 @@ ITEMS = {
         'rarity': 1,
         'price': 1500
     },
+    'wooden_roll': {
+        'name': 'Деревянный ролл',
+        'chance': 0.0025,
+        'bonus': 1.1,
+        'color': (139, 69, 19),
+        'next': 'stone_roll',
+        'type': 'roll',
+        'rarity': 1,
+        'price': 2000
+    },
     'stone_drag': {
         'name': 'Каменный драг',
         'chance': 0.003,
@@ -73,6 +83,16 @@ ITEMS = {
         'type': 'apple',
         'rarity': 2,
         'price': 4500
+    },
+    'stone_roll': {
+        'name': 'Каменный ролл',
+        'chance': 0.000375,
+        'bonus': 1.3,
+        'color': (128, 128, 128),
+        'next': 'copper_roll',
+        'type': 'roll',
+        'rarity': 2,
+        'price': 8000
     },
     'copper_drag': {
         'name': 'Медный драг',
@@ -94,6 +114,16 @@ ITEMS = {
         'rarity': 3,
         'price': 13500
     },
+    'copper_roll': {
+        'name': 'Медный ролл',
+        'chance': 0.000075,
+        'bonus': 1.5,
+        'color': (184, 115, 51),
+        'next': 'iron_roll',
+        'type': 'roll',
+        'rarity': 3,
+        'price': 30000
+    },
     'iron_drag': {
         'name': 'Железный драг',
         'chance': 0.00005,
@@ -113,6 +143,16 @@ ITEMS = {
         'type': 'apple',
         'rarity': 4,
         'price': 40000
+    },
+    'iron_roll': {
+        'name': 'Железный ролл',
+        'chance': 0.0000125,
+        'bonus': 1.7,
+        'color': (192, 192, 192),
+        'next': 'golden_roll',
+        'type': 'roll',
+        'rarity': 4,
+        'price': 100000
     },
     'golden_drag': {
         'name': 'Золотой драг',
@@ -134,6 +174,16 @@ ITEMS = {
         'rarity': 5,
         'price': 120000
     },
+    'golden_roll': {
+        'name': 'Золотой ролл',
+        'chance': 0.0000125,
+        'bonus': 2.0,
+        'color': (255, 215, 0),
+        'next': 'emerald_roll',
+        'type': 'roll',
+        'rarity': 5,
+        'price': 400000
+    },
     'emerald_drag': {
         'name': 'Изумрудный драг',
         'chance': 0.0000005,
@@ -153,6 +203,16 @@ ITEMS = {
         'type': 'apple',
         'rarity': 6,
         'price': 360000
+    },
+    'emerald_roll': {
+        'name': 'Изумрудный ролл',
+        'chance': 0.00000125,
+        'bonus': 2.2,
+        'color': (80, 200, 80),
+        'next': 'diamond_roll',
+        'type': 'roll',
+        'rarity': 6,
+        'price': 1500000
     },
     'diamond_drag': {
         'name': 'Алмазный драг',
@@ -174,6 +234,16 @@ ITEMS = {
         'rarity': 7,
         'price': 1000000
     },
+    'diamond_roll': {
+        'name': 'Алмазный ролл',
+        'chance': 0.000000125,
+        'bonus': 2.5,
+        'color': (0, 255, 255),
+        'next': 'ruby_roll',
+        'type': 'roll',
+        'rarity': 7,
+        'price': 6000000
+    },
     'ruby_drag': {
         'name': 'Рубиновый драг',
         'chance': 0.000000005,
@@ -194,6 +264,16 @@ ITEMS = {
         'rarity': 8,
         'price': 3000000
     },
+    'ruby_roll': {
+        'name': 'Рубиновый ролл',
+        'chance': 0.0000000125,
+        'bonus': 2.7,
+        'color': (200, 0, 0),
+        'next': 'netherite_roll',
+        'type': 'roll',
+        'rarity': 8,
+        'price': 30000000
+    },
     'netherite_drag': {
         'name': 'Незеритовый драг',
         'chance': 0.0000000005,
@@ -213,6 +293,16 @@ ITEMS = {
         'type': 'apple',
         'rarity': 9,
         'price': 9000000
+    },
+    'netherite_roll': {
+        'name': 'Незеритовый ролл',
+        'chance': 0.00000000125,
+        'bonus': 3.0,
+        'color': (80, 0, 80),
+        'next': None,
+        'type': 'roll',
+        'rarity': 9,
+        'price': 150000000
     },
     'netherite_apple': {
         'name': 'Незеритовое яблоко',
@@ -238,14 +328,17 @@ def get_rarity_order():
     for rarity in sorted(rarity_groups.keys(), reverse=True):
         drags = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'drag']
         apples = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'apple']
-        sorted_items.extend(drags + apples)
+        rolls = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'roll']
+        sorted_items.extend(drags + apples + rolls)
     
     return sorted_items
 
 ITEM_ORDER = ['wooden_drag', 'stone_drag', 'copper_drag', 'iron_drag', 
               'golden_drag', 'emerald_drag', 'diamond_drag', 'ruby_drag', 'netherite_drag',
               'apple', 'wooden_apple', 'stone_apple', 'copper_apple', 'iron_apple',
-              'golden_apple', 'emerald_apple', 'diamond_apple', 'ruby_apple', 'netherite_apple']
+              'golden_apple', 'emerald_apple', 'diamond_apple', 'ruby_apple', 'netherite_apple',
+              'wooden_roll', 'stone_roll', 'copper_roll', 'iron_roll', 'golden_roll',
+              'emerald_roll', 'diamond_roll', 'ruby_roll', 'netherite_roll']
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -400,7 +493,6 @@ class ShopItem:
             tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 5))
             surface.blit(texture, tex_rect)
         
-        # Цена снизу
         price = ITEMS[self.item_id]['price']
         price_text = font_tiny.render(format_number(price), True, GOLD)
         price_rect = price_text.get_rect(center=(self.rect.centerx, self.rect.bottom - 10))
@@ -424,7 +516,6 @@ class InventorySlot:
         self.texture = None
         
     def draw(self, surface, font):
-        # Фон слота
         pygame.draw.rect(surface, DARK_GRAY, self.rect, border_radius=5)
         pygame.draw.rect(surface, GRAY, self.rect, 2, border_radius=5)
         
@@ -450,14 +541,13 @@ class CraftButton:
         self.is_hovered = False
         
     def draw(self, surface, font):
-        # Стиль как у слотов
         shadow_rect = self.rect.copy()
         shadow_rect.x += 2
         shadow_rect.y += 2
         pygame.draw.rect(surface, (0, 0, 0, 50), shadow_rect, border_radius=8)
         
         if self.is_hovered:
-            pygame.draw.rect(surface, (80, 40, 120), self.rect, border_radius=8)
+            pygame.draw.rect(surface, DARK_GRAY, self.rect, border_radius=8)
         else:
             pygame.draw.rect(surface, DARK_GRAY, self.rect, border_radius=8)
         
@@ -549,6 +639,8 @@ class ClickerGame:
         self.drag_source = None
         self.drag_offset = (0, 0)
         self.shop_items = []
+        self.hovered_inventory_slot = None
+        self.passive_speed_multiplier = 1.0
         
         self.create_buttons()
         self.create_inventory_slots()
@@ -645,11 +737,11 @@ class ClickerGame:
             if 'price' in item_data and item_data['price'] > 0:
                 shop_item_ids.append(item_id)
         
-        shop_item_ids.sort(key=lambda x: ITEMS[x]['rarity'], reverse=True)
+        shop_item_ids.sort(key=lambda x: ITEMS[x]['price'], reverse=True)
         
         item_size = 60
         spacing = 8
-        cols = 5
+        cols = 7
         total_width = cols * item_size + (cols - 1) * spacing
         start_x = (WINDOW_WIDTH - total_width) // 2
         start_y = 130 + OFFSET_Y
@@ -681,11 +773,12 @@ class ClickerGame:
         self.craft_button = CraftButton(craft_button_x, 520 + OFFSET_Y, slot_size)
         
         self.inv_grid_slots = []
-        total_width = 7 * slot_size + 6 * spacing
+        cols = 9
+        total_width = cols * slot_size + (cols - 1) * spacing
         start_x = (WINDOW_WIDTH - total_width) // 2
         
-        for row in range(3):
-            for col in range(7):
+        for row in range(4):
+            for col in range(cols):
                 x = start_x + col * (slot_size + spacing)
                 y = 300 + row * (slot_size + spacing)
                 slot = InventorySlot(x, y, slot_size)
@@ -700,7 +793,16 @@ class ClickerGame:
             slot.item = None
             slot.texture = None
         
-        for i, item_id in enumerate(self.inventory[:21]):
+        max_slots = len(self.inv_grid_slots)
+        if len(self.inventory) > max_slots:
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                200 + OFFSET_Y,
+                "Инвентарь переполнен!",
+                RED
+            )
+        
+        for i, item_id in enumerate(self.inventory[:max_slots]):
             if i < len(self.inv_grid_slots):
                 self.inv_grid_slots[i].item = item_id
                 self.inv_grid_slots[i].texture = self.textures.get(item_id)
@@ -727,7 +829,15 @@ class ClickerGame:
         price = ITEMS[item_id]['price']
         if self.money >= price:
             self.money -= price
-            self.inventory.append(item_id)
+            if not self.add_item_to_inventory(item_id):
+                self.money += price
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    "Инвентарь полон!",
+                    RED
+                )
+                return False
             self.data_changed = True
             self.apply_item_bonuses()
             self.update_inventory_slots()
@@ -747,6 +857,12 @@ class ClickerGame:
                 RED
             )
             return False
+    
+    def add_item_to_inventory(self, item_id):
+        if len(self.inventory) < len(self.inv_grid_slots):
+            self.inventory.append(item_id)
+            return True
+        return False
         
     def craft_items(self):
         items_in_slots = {}
@@ -774,7 +890,10 @@ class ClickerGame:
                 continue
                 
             item_type = ITEMS[item_id]['type']
-            required_count = 5 if item_type == 'drag' else 3
+            if item_type == 'roll':
+                required_count = 3
+            else:
+                required_count = 5 if item_type == 'drag' else 3
             
             if count >= required_count and ITEMS[item_id]['next'] is not None:
                 removed = 0
@@ -787,6 +906,15 @@ class ClickerGame:
                             break
                 
                 next_item = ITEMS[item_id]['next']
+                if len(self.inventory) >= len(self.inv_grid_slots):
+                    self.add_floating_text(
+                        WINDOW_WIDTH//2,
+                        570 + OFFSET_Y,
+                        "Инвентарь полон!",
+                        RED
+                    )
+                    return False
+                
                 self.inventory.append(next_item)
                 
                 self.data_changed = True
@@ -808,7 +936,7 @@ class ClickerGame:
                 self.add_floating_text(
                     WINDOW_WIDTH//2,
                     570 + OFFSET_Y,
-                    f"Нужно 3 (яблоки) или 5 (драги) одинаковых!",
+                    f"Нужно 3 одинаковых!",
                     RED
                 )
             else:
@@ -827,14 +955,20 @@ class ClickerGame:
     def apply_item_bonuses(self):
         total_bonus = 0
         total_passive = 0
+        roll_multiplier = 1.0
+        
         for item_id in self.inventory:
             if item_id in ITEMS:
                 if ITEMS[item_id]['type'] == 'drag':
                     total_bonus += ITEMS[item_id]['bonus']
                 elif ITEMS[item_id]['type'] == 'apple':
                     total_passive += ITEMS[item_id]['bonus']
+                elif ITEMS[item_id]['type'] == 'roll':
+                    roll_multiplier *= ITEMS[item_id]['bonus']
+        
         self.item_bonus = total_bonus
         self.item_passive_bonus = total_passive
+        self.passive_speed_multiplier = roll_multiplier
         self.data_changed = True
         
     def find_nearest_empty_slot(self, mouse_pos):
@@ -950,12 +1084,22 @@ class ClickerGame:
         for item_id in reversed(ITEM_ORDER):
             chance = ITEMS[item_id]['chance'] * 100
             if roll < chance:
-                self.inventory.append(item_id)
+                if len(self.inventory) >= len(self.inv_grid_slots):
+                    price = ITEMS[item_id]['price'] // 2
+                    self.money += price
+                    self.data_changed = True
+                    self.add_floating_text(
+                        WINDOW_WIDTH//2,
+                        300 + OFFSET_Y,
+                        f"+{format_number(price)}",
+                        GOLD
+                    )
+                    return
                 
+                self.inventory.append(item_id)
                 self.data_changed = True
                 self.apply_item_bonuses()
                 self.update_inventory_slots()
-                
                 self.add_floating_text(
                     WINDOW_WIDTH//2,
                     300 + OFFSET_Y,
@@ -1016,7 +1160,10 @@ class ClickerGame:
         total_income = self.passive_income + getattr(self, 'item_passive_bonus', 0)
         if total_income > 0:
             self.passive_timer += 1
-            if self.passive_timer >= FPS:
+            speed_multiplier = getattr(self, 'passive_speed_multiplier', 1.0)
+            required_ticks = max(1, int(FPS / speed_multiplier))
+            
+            if self.passive_timer >= required_ticks:
                 self.money += total_income
                 self.passive_timer = 0
                 self.data_changed = True
@@ -1056,8 +1203,9 @@ class ClickerGame:
         
         total_bonus = self.multiplier + getattr(self, 'item_bonus', 0)
         total_passive = self.passive_income + getattr(self, 'item_passive_bonus', 0)
+        speed_mult = getattr(self, 'passive_speed_multiplier', 1.0)
         earnings = 1 + total_bonus
-        earnings_text = self.font_small.render(f"+{earnings} за клик / +{total_passive} в сек", True, GOLD)
+        earnings_text = self.font_small.render(f"+{earnings} за клик / +{total_passive} в сек (x{speed_mult:.1f})", True, GOLD)
         earnings_rect = earnings_text.get_rect(center=(WINDOW_WIDTH//2, 145 + OFFSET_Y))
         self.screen.blit(earnings_text, earnings_rect)
         
@@ -1142,14 +1290,14 @@ class ClickerGame:
         title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
         self.screen.blit(title, title_rect)
         
-        count_text = self.font_small.render(f"Всего: {len(self.inventory)} / 21", True, LIGHT_GRAY)
+        count_text = self.font_small.render(f"Всего: {len(self.inventory)} / {len(self.inv_grid_slots)}", True, LIGHT_GRAY)
         count_rect = count_text.get_rect(center=(WINDOW_WIDTH//2, 100 + OFFSET_Y))
         self.screen.blit(count_text, count_rect)
         
         for slot in self.inv_grid_slots:
             slot.draw(self.screen, self.font_mini)
         
-        craft_label = self.font_tiny.render("КРАФТ (3 яблока или 5 драгов)", True, LIGHT_GRAY)
+        craft_label = self.font_tiny.render("КРАФТ (3 одинаковых)", True, LIGHT_GRAY)
         craft_label_rect = craft_label.get_rect(center=(WINDOW_WIDTH//2, 505 + OFFSET_Y))
         self.screen.blit(craft_label, craft_label_rect)
         
@@ -1168,6 +1316,76 @@ class ClickerGame:
             b = int(0)
             pygame.draw.line(self.screen, (r, g, b), (0, i), (WINDOW_WIDTH, i))
             
+    def move_item_to_craft_slot(self, slot_index):
+        if self.hovered_inventory_slot is None:
+            return False
+        
+        if slot_index < 0 or slot_index >= len(self.inventory_slots):
+            return False
+        
+        craft_slot = self.inventory_slots[slot_index]
+        if craft_slot.item is not None:
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                570 + OFFSET_Y,
+                f"Слот {slot_index + 1} занят!",
+                RED
+            )
+            return False
+        
+        source_slot = self.hovered_inventory_slot
+        if source_slot.item is None:
+            return False
+        
+        if source_slot in self.inventory_slots:
+            return False
+        
+        craft_slot.item = source_slot.item
+        craft_slot.texture = source_slot.texture
+        source_slot.item = None
+        source_slot.texture = None
+        
+        self.sync_inventory_from_slots()
+        self.update_inventory_slots()
+        self.apply_item_bonuses()
+        
+        self.add_floating_text(
+            WINDOW_WIDTH//2,
+            570 + OFFSET_Y,
+            f"Предмет в слот {slot_index + 1}!",
+            GREEN
+        )
+        return True
+    
+    def sell_item(self, slot):
+        if slot is None or slot.item is None:
+            return False
+        
+        if slot in self.inventory_slots:
+            return False
+        
+        item_id = slot.item
+        if item_id not in ITEMS:
+            return False
+        
+        price = ITEMS[item_id]['price'] // 2
+        self.money += price
+        slot.item = None
+        slot.texture = None
+        
+        self.sync_inventory_from_slots()
+        self.update_inventory_slots()
+        self.apply_item_bonuses()
+        self.data_changed = True
+        
+        self.add_floating_text(
+            WINDOW_WIDTH//2,
+            570 + OFFSET_Y,
+            f"Продано за {format_number(price)}!",
+            GOLD
+        )
+        return True
+
     def run(self):
         running = True
         while running:
@@ -1204,29 +1422,49 @@ class ClickerGame:
                         self.handle_passive_purchase()
                 
                 elif self.current_tab == 'inventory':
+                    if event.type == pygame.MOUSEMOTION:
+                        self.hovered_inventory_slot = None
+                        for slot in self.inv_grid_slots:
+                            if slot.rect.collidepoint(event.pos) and slot.item is not None:
+                                self.hovered_inventory_slot = slot
+                                break
+                    
+                    if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_RETURN:
+                            self.craft_items()
+                        elif event.key in [pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4, pygame.K_5]:
+                            slot_index = event.key - pygame.K_1
+                            self.move_item_to_craft_slot(slot_index)
+                    
                     action = self.craft_button.handle_event(event)
                     if action == 'click':
                         self.craft_items()
                     
-                    if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-                        for slot in self.inv_grid_slots:
-                            if slot.is_hovered and slot.item is not None:
-                                self.dragging_item = slot.item
-                                self.drag_source = slot
-                                self.drag_offset = (slot.rect.x - mouse_pos[0], slot.rect.y - mouse_pos[1])
-                                slot.item = None
-                                slot.texture = None
-                                self.sync_inventory_from_slots()
-                                break
-                        
-                        if self.dragging_item is None:
-                            for slot in self.inventory_slots:
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if event.button == 1:
+                            for slot in self.inv_grid_slots:
                                 if slot.is_hovered and slot.item is not None:
                                     self.dragging_item = slot.item
                                     self.drag_source = slot
                                     self.drag_offset = (slot.rect.x - mouse_pos[0], slot.rect.y - mouse_pos[1])
                                     slot.item = None
                                     slot.texture = None
+                                    self.sync_inventory_from_slots()
+                                    break
+                            
+                            if self.dragging_item is None:
+                                for slot in self.inventory_slots:
+                                    if slot.is_hovered and slot.item is not None:
+                                        self.dragging_item = slot.item
+                                        self.drag_source = slot
+                                        self.drag_offset = (slot.rect.x - mouse_pos[0], slot.rect.y - mouse_pos[1])
+                                        slot.item = None
+                                        slot.texture = None
+                                        break
+                        elif event.button == 3:
+                            for slot in self.inv_grid_slots:
+                                if slot.is_hovered and slot.item is not None:
+                                    self.sell_item(slot)
                                     break
                     
                     elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
