@@ -92,7 +92,7 @@ ITEMS = {
         'next': 'copper_roll',
         'type': 'roll',
         'rarity': 2,
-        'price': 8000
+        'price': 6000
     },
     'copper_drag': {
         'name': 'Медный драг',
@@ -122,7 +122,7 @@ ITEMS = {
         'next': 'iron_roll',
         'type': 'roll',
         'rarity': 3,
-        'price': 30000
+        'price': 18000
     },
     'iron_drag': {
         'name': 'Железный драг',
@@ -152,7 +152,7 @@ ITEMS = {
         'next': 'golden_roll',
         'type': 'roll',
         'rarity': 4,
-        'price': 100000
+        'price': 55000
     },
     'golden_drag': {
         'name': 'Золотой драг',
@@ -182,7 +182,7 @@ ITEMS = {
         'next': 'emerald_roll',
         'type': 'roll',
         'rarity': 5,
-        'price': 400000
+        'price': 160000
     },
     'emerald_drag': {
         'name': 'Изумрудный драг',
@@ -212,7 +212,7 @@ ITEMS = {
         'next': 'diamond_roll',
         'type': 'roll',
         'rarity': 6,
-        'price': 1500000
+        'price': 450000
     },
     'diamond_drag': {
         'name': 'Алмазный драг',
@@ -242,7 +242,7 @@ ITEMS = {
         'next': 'ruby_roll',
         'type': 'roll',
         'rarity': 7,
-        'price': 6000000
+        'price': 1200000
     },
     'ruby_drag': {
         'name': 'Рубиновый драг',
@@ -272,14 +272,14 @@ ITEMS = {
         'next': 'netherite_roll',
         'type': 'roll',
         'rarity': 8,
-        'price': 30000000
+        'price': 3500000
     },
     'netherite_drag': {
         'name': 'Незеритовый драг',
         'chance': 0.0000000005,
         'bonus': 15,
         'color': (80, 0, 80),
-        'next': None,
+        'next': 'obsidian_drag',
         'type': 'drag',
         'rarity': 9,
         'price': 250000000
@@ -299,20 +299,80 @@ ITEMS = {
         'chance': 0.00000000125,
         'bonus': 3.0,
         'color': (80, 0, 80),
-        'next': None,
+        'next': 'obsidian_roll',
         'type': 'roll',
         'rarity': 9,
-        'price': 150000000
+        'price': 12000000
     },
     'netherite_apple': {
         'name': 'Незеритовое яблоко',
         'chance': 0.00000000025,
         'bonus': 20,
         'color': (80, 0, 80),
-        'next': None,
+        'next': 'obsidian_apple',
         'type': 'apple',
         'rarity': 10,
         'price': 25000000
+    },
+    'obsidian_drag': {
+        'name': 'Обсидиановый драг',
+        'chance': 0.00000000005,
+        'bonus': 20,
+        'color': (60, 20, 80),
+        'next': 'magic_drag',
+        'type': 'drag',
+        'rarity': 10,
+        'price': 1000000000
+    },
+    'obsidian_apple': {
+        'name': 'Обсидиановое яблоко',
+        'chance': 0.000000000025,
+        'bonus': 30,
+        'color': (60, 20, 80),
+        'next': 'magic_apple',
+        'type': 'apple',
+        'rarity': 11,
+        'price': 75000000
+    },
+    'obsidian_roll': {
+        'name': 'Обсидиановый ролл',
+        'chance': 0.000000000125,
+        'bonus': 5.0,
+        'color': (60, 20, 80),
+        'next': 'magic_roll',
+        'type': 'roll',
+        'rarity': 10,
+        'price': 35000000
+    },
+    'magic_drag': {
+        'name': 'Магический драг',
+        'chance': 0.000000000005,
+        'bonus': 30,
+        'color': (200, 50, 255),
+        'next': None,
+        'type': 'drag',
+        'rarity': 11,
+        'price': 5000000000
+    },
+    'magic_apple': {
+        'name': 'Магическое яблоко',
+        'chance': 0.0000000000025,
+        'bonus': 40,
+        'color': (200, 50, 255),
+        'next': None,
+        'type': 'apple',
+        'rarity': 12,
+        'price': 220000000
+    },
+    'magic_roll': {
+        'name': 'Магический ролл',
+        'chance': 0.0000000000125,
+        'bonus': 10.0,
+        'color': (200, 50, 255),
+        'next': None,
+        'type': 'roll',
+        'rarity': 11,
+        'price': 100000000
     }
 }
 
@@ -334,11 +394,11 @@ def get_rarity_order():
     return sorted_items
 
 ITEM_ORDER = ['wooden_drag', 'stone_drag', 'copper_drag', 'iron_drag', 
-              'golden_drag', 'emerald_drag', 'diamond_drag', 'ruby_drag', 'netherite_drag',
+              'golden_drag', 'emerald_drag', 'diamond_drag', 'ruby_drag', 'netherite_drag', 'obsidian_drag', 'magic_drag',
               'apple', 'wooden_apple', 'stone_apple', 'copper_apple', 'iron_apple',
-              'golden_apple', 'emerald_apple', 'diamond_apple', 'ruby_apple', 'netherite_apple',
+              'golden_apple', 'emerald_apple', 'diamond_apple', 'ruby_apple', 'netherite_apple', 'obsidian_apple', 'magic_apple',
               'wooden_roll', 'stone_roll', 'copper_roll', 'iron_roll', 'golden_roll',
-              'emerald_roll', 'diamond_roll', 'ruby_roll', 'netherite_roll']
+              'emerald_roll', 'diamond_roll', 'ruby_roll', 'netherite_roll', 'obsidian_roll', 'magic_roll']
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -641,6 +701,7 @@ class ClickerGame:
         self.shop_items = []
         self.hovered_inventory_slot = None
         self.passive_speed_multiplier = 1.0
+        self.hovered_item_info = None
         
         self.create_buttons()
         self.create_inventory_slots()
@@ -822,6 +883,24 @@ class ClickerGame:
         self.inventory = new_inventory
         self.data_changed = True
         
+    def update_hovered_item(self):
+        mouse_pos = pygame.mouse.get_pos()
+        self.hovered_item_info = None
+        self.hovered_inventory_slot = None
+        
+        if self.current_tab == 'inventory':
+            for slot in self.inv_grid_slots:
+                if slot.rect.collidepoint(mouse_pos) and slot.item is not None:
+                    self.hovered_inventory_slot = slot
+                    self.hovered_item_info = (slot.item, slot.rect)
+                    return
+            
+            for slot in self.inventory_slots:
+                if slot.rect.collidepoint(mouse_pos) and slot.item is not None:
+                    self.hovered_inventory_slot = slot
+                    self.hovered_item_info = (slot.item, slot.rect)
+                    return
+    
     def buy_item(self, item_id):
         if item_id not in ITEMS:
             return False
@@ -1167,12 +1246,13 @@ class ClickerGame:
                 self.money += total_income
                 self.passive_timer = 0
                 self.data_changed = True
-                self.add_floating_text(
-                    WINDOW_WIDTH//2,
-                    200 + OFFSET_Y,
-                    f"+{total_income}",
-                    GOLD
-                )
+                if self.current_tab == 'main':
+                    self.add_floating_text(
+                        WINDOW_WIDTH//2,
+                        200 + OFFSET_Y,
+                        f"+{total_income}",
+                        GOLD
+                    )
             
     def save_game(self):
         if self.data_changed:
@@ -1285,6 +1365,53 @@ class ClickerGame:
                 y += 16
                 items_shown += 1
         
+    def draw_item_tooltip(self):
+        if self.hovered_item_info is None:
+            return
+        
+        item_id, slot_rect = self.hovered_item_info
+        if item_id not in ITEMS:
+            return
+        
+        item_data = ITEMS[item_id]
+        item_type = item_data['type']
+        bonus = item_data['bonus']
+        
+        tooltip_width = 180
+        tooltip_height = 50
+        tooltip_x = slot_rect.centerx - tooltip_width // 2
+        tooltip_y = slot_rect.bottom + 5
+        
+        if tooltip_y + tooltip_height > WINDOW_HEIGHT - 50:
+            tooltip_y = slot_rect.top - tooltip_height - 5
+        
+        if tooltip_x < 5:
+            tooltip_x = 5
+        elif tooltip_x + tooltip_width > WINDOW_WIDTH - 5:
+            tooltip_x = WINDOW_WIDTH - tooltip_width - 5
+        
+        tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+        pygame.draw.rect(self.screen, (20, 20, 20, 230), tooltip_rect, border_radius=8)
+        pygame.draw.rect(self.screen, GOLD, tooltip_rect, 1, border_radius=8)
+        
+        name_text = self.font_tiny.render(item_data['name'], True, item_data['color'])
+        name_rect = name_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 12))
+        self.screen.blit(name_text, name_rect)
+        
+        if item_type == 'drag':
+            bonus_text = f"+{bonus} за клик"
+        elif item_type == 'apple':
+            bonus_text = f"+{bonus} в сек"
+        elif item_type == 'roll':
+            bonus_text = f"x{bonus} скорость"
+        else:
+            bonus_text = f"+{bonus}"
+        
+        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else BLUE)
+        bonus_text_surf = self.font_mini.render(bonus_text, True, bonus_color)
+        bonus_rect = bonus_text_surf.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 32))
+        self.screen.blit(bonus_text_surf, bonus_rect)
+        
     def draw_inventory_tab(self):
         title = self.font_medium.render("ИНВЕНТАРЬ", True, GOLD)
         title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
@@ -1307,6 +1434,7 @@ class ClickerGame:
         self.craft_button.draw(self.screen, self.font_large)
         
         self.draw_item_bonuses()
+        self.draw_item_tooltip()
         
     def draw_background(self):
         for i in range(WINDOW_HEIGHT):
@@ -1391,6 +1519,8 @@ class ClickerGame:
         while running:
             mouse_pos = pygame.mouse.get_pos()
             
+            self.update_hovered_item()
+            
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
@@ -1427,7 +1557,14 @@ class ClickerGame:
                         for slot in self.inv_grid_slots:
                             if slot.rect.collidepoint(event.pos) and slot.item is not None:
                                 self.hovered_inventory_slot = slot
+                                self.hovered_item_info = (slot.item, slot.rect)
                                 break
+                        if self.hovered_inventory_slot is None:
+                            for slot in self.inventory_slots:
+                                if slot.rect.collidepoint(event.pos) and slot.item is not None:
+                                    self.hovered_inventory_slot = slot
+                                    self.hovered_item_info = (slot.item, slot.rect)
+                                    break
                     
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_RETURN:
