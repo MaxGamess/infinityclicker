@@ -915,6 +915,9 @@ class ClickerGame:
             'life': 60
         })
         
+        if len(self.floating_texts) > 20:
+            self.floating_texts.pop(0)
+        
     def update_floating_texts(self):
         for text in self.floating_texts[:]:
             text['y'] -= 2
