@@ -414,117 +414,117 @@ ITEMS = {
         'next': 'stone_act',
         'type': 'act',
         'rarity': 1,
-        'price': 5000
+        'price': 15000
     },
     'stone_act': {
         'name': 'Каменный акт',
         'chance': 0.0001875,
-        'bonus': 1.3,
+        'bonus': 1.2,
         'color': (128, 128, 128),
         'next': 'copper_act',
         'type': 'act',
         'rarity': 2,
-        'price': 15000
+        'price': 45000
     },
     'copper_act': {
         'name': 'Медный акт',
         'chance': 0.0000375,
-        'bonus': 1.5,
+        'bonus': 1.3,
         'color': (184, 115, 51),
         'next': 'iron_act',
         'type': 'act',
         'rarity': 3,
-        'price': 45000
+        'price': 130000
     },
     'iron_act': {
         'name': 'Железный акт',
         'chance': 0.00000625,
-        'bonus': 1.5,
+        'bonus': 1.4,
         'color': (192, 192, 192),
         'next': 'golden_act',
         'type': 'act',
         'rarity': 4,
-        'price': 130000
+        'price': 390000
     },
     'golden_act': {
         'name': 'Золотой акт',
         'chance': 0.0000025,
-        'bonus': 2.0,
+        'bonus': 1.5,
         'color': (255, 215, 0),
         'next': 'emerald_act',
         'type': 'act',
         'rarity': 5,
-        'price': 390000
+        'price': 1200000
     },
     'emerald_act': {
         'name': 'Изумрудный акт',
         'chance': 0.000000625,
-        'bonus': 2.5,
+        'bonus': 2.0,
         'color': (80, 200, 80),
         'next': 'diamond_act',
         'type': 'act',
         'rarity': 6,
-        'price': 1200000
+        'price': 3600000
     },
     'diamond_act': {
         'name': 'Алмазный акт',
         'chance': 0.0000000625,
-        'bonus': 3.0,
+        'bonus': 2.5,
         'color': (0, 255, 255),
         'next': 'ruby_act',
         'type': 'act',
         'rarity': 7,
-        'price': 3600000
+        'price': 12000000
     },
     'ruby_act': {
         'name': 'Рубиновый акт',
         'chance': 0.00000000625,
-        'bonus': 5.0,
+        'bonus': 3.0,
         'color': (200, 0, 0),
         'next': 'netherite_act',
         'type': 'act',
         'rarity': 8,
-        'price': 12000000
+        'price': 36000000
     },
     'netherite_act': {
         'name': 'Незеритовый акт',
         'chance': 0.000000000625,
-        'bonus': 10.0,
+        'bonus': 4.0,
         'color': (80, 0, 80),
         'next': 'obsidian_act',
         'type': 'act',
         'rarity': 9,
-        'price': 36000000
+        'price': 180000000
     },
     'obsidian_act': {
         'name': 'Обсидиановый акт',
         'chance': 0.0000000000625,
-        'bonus': 15.0,
+        'bonus': 5.0,
         'color': (60, 20, 80),
         'next': 'magic_act',
         'type': 'act',
         'rarity': 10,
-        'price': 180000000
+        'price': 500000000
     },
     'magic_act': {
         'name': 'Магический акт',
         'chance': 0.00000000000625,
-        'bonus': 20.0,
+        'bonus': 7.5,
         'color': (200, 50, 255),
         'next': 'sapphire_act',
         'type': 'act',
         'rarity': 11,
-        'price': 500000000
+        'price': 1500000000
     },
     'sapphire_act': {
         'name': 'Сапфировый акт',
         'chance': 0.000000000000625,
-        'bonus': 30.0,
+        'bonus': 10.0,
         'color': LIGHT_SAPPHIRE,
         'next': None,
         'type': 'act',
         'rarity': 12,
-        'price': 1500000000
+        'price': 4500000000
     }
 }
 
@@ -1426,6 +1426,8 @@ class ClickerGame:
         roll_multiplier = 1.0
         active_multiplier = 1.0
         
+        act_bonuses = []
+        
         for item_id in self.inventory:
             if item_id in ITEMS:
                 if ITEMS[item_id]['type'] == 'drag':
@@ -1435,7 +1437,12 @@ class ClickerGame:
                 elif ITEMS[item_id]['type'] == 'roll':
                     roll_multiplier *= ITEMS[item_id]['bonus']
                 elif ITEMS[item_id]['type'] == 'act':
-                    active_multiplier += ITEMS[item_id]['bonus']
+                    act_bonuses.append(ITEMS[item_id]['bonus'])
+        
+        act_bonuses.sort(reverse=True)
+        top_acts = act_bonuses[:5]
+        for bonus in top_acts:
+            active_multiplier += bonus
         
         self.item_bonus = total_bonus
         self.item_passive_bonus = total_passive
