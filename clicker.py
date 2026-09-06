@@ -26,6 +26,8 @@ PURPLE = (150, 50, 255)
 GRAY = (100, 100, 100)
 DARK_GRAY = (50, 50, 50)
 LIGHT_GRAY = (180, 180, 180)
+SAPPHIRE = (15, 82, 186)
+LIGHT_SAPPHIRE = (100, 180, 255)
 
 DATA_FILE = 'data.json'
 TEXTURES_DIR = './textures/'
@@ -349,7 +351,7 @@ ITEMS = {
         'chance': 0.000000000005,
         'bonus': 30,
         'color': (200, 50, 255),
-        'next': None,
+        'next': 'sapphire_drag',
         'type': 'drag',
         'rarity': 11,
         'price': 5000000000
@@ -359,7 +361,7 @@ ITEMS = {
         'chance': 0.0000000000025,
         'bonus': 40,
         'color': (200, 50, 255),
-        'next': None,
+        'next': 'sapphire_apple',
         'type': 'apple',
         'rarity': 12,
         'price': 220000000
@@ -369,10 +371,226 @@ ITEMS = {
         'chance': 0.0000000000125,
         'bonus': 10.0,
         'color': (200, 50, 255),
-        'next': None,
+        'next': 'sapphire_roll',
         'type': 'roll',
         'rarity': 11,
         'price': 100000000
+    },
+    'sapphire_drag': {
+        'name': 'Сапфировый драг',
+        'chance': 0.0000000000005,
+        'bonus': 50,
+        'color': SAPPHIRE,
+        'next': None,
+        'type': 'drag',
+        'rarity': 12,
+        'price': 20000000000
+    },
+    'sapphire_apple': {
+        'name': 'Сапфировое яблоко',
+        'chance': 0.00000000000025,
+        'bonus': 50,
+        'color': LIGHT_SAPPHIRE,
+        'next': None,
+        'type': 'apple',
+        'rarity': 13,
+        'price': 600000000
+    },
+    'sapphire_roll': {
+        'name': 'Сапфировый ролл',
+        'chance': 0.00000000000125,
+        'bonus': 20.0,
+        'color': LIGHT_SAPPHIRE,
+        'next': None,
+        'type': 'roll',
+        'rarity': 12,
+        'price': 300000000
+    },
+    'wooden_act': {
+        'name': 'Деревянный акт',
+        'chance': 0.00125,
+        'bonus': 1.1,
+        'color': (139, 69, 19),
+        'next': 'stone_act',
+        'type': 'act',
+        'rarity': 1,
+        'price': 5000
+    },
+    'stone_act': {
+        'name': 'Каменный акт',
+        'chance': 0.0001875,
+        'bonus': 1.3,
+        'color': (128, 128, 128),
+        'next': 'copper_act',
+        'type': 'act',
+        'rarity': 2,
+        'price': 15000
+    },
+    'copper_act': {
+        'name': 'Медный акт',
+        'chance': 0.0000375,
+        'bonus': 1.5,
+        'color': (184, 115, 51),
+        'next': 'iron_act',
+        'type': 'act',
+        'rarity': 3,
+        'price': 45000
+    },
+    'iron_act': {
+        'name': 'Железный акт',
+        'chance': 0.00000625,
+        'bonus': 1.5,
+        'color': (192, 192, 192),
+        'next': 'golden_act',
+        'type': 'act',
+        'rarity': 4,
+        'price': 130000
+    },
+    'golden_act': {
+        'name': 'Золотой акт',
+        'chance': 0.0000025,
+        'bonus': 2.0,
+        'color': (255, 215, 0),
+        'next': 'emerald_act',
+        'type': 'act',
+        'rarity': 5,
+        'price': 390000
+    },
+    'emerald_act': {
+        'name': 'Изумрудный акт',
+        'chance': 0.000000625,
+        'bonus': 2.5,
+        'color': (80, 200, 80),
+        'next': 'diamond_act',
+        'type': 'act',
+        'rarity': 6,
+        'price': 1200000
+    },
+    'diamond_act': {
+        'name': 'Алмазный акт',
+        'chance': 0.0000000625,
+        'bonus': 3.0,
+        'color': (0, 255, 255),
+        'next': 'ruby_act',
+        'type': 'act',
+        'rarity': 7,
+        'price': 3600000
+    },
+    'ruby_act': {
+        'name': 'Рубиновый акт',
+        'chance': 0.00000000625,
+        'bonus': 5.0,
+        'color': (200, 0, 0),
+        'next': 'netherite_act',
+        'type': 'act',
+        'rarity': 8,
+        'price': 12000000
+    },
+    'netherite_act': {
+        'name': 'Незеритовый акт',
+        'chance': 0.000000000625,
+        'bonus': 10.0,
+        'color': (80, 0, 80),
+        'next': 'obsidian_act',
+        'type': 'act',
+        'rarity': 9,
+        'price': 36000000
+    },
+    'obsidian_act': {
+        'name': 'Обсидиановый акт',
+        'chance': 0.0000000000625,
+        'bonus': 15.0,
+        'color': (60, 20, 80),
+        'next': 'magic_act',
+        'type': 'act',
+        'rarity': 10,
+        'price': 180000000
+    },
+    'magic_act': {
+        'name': 'Магический акт',
+        'chance': 0.00000000000625,
+        'bonus': 20.0,
+        'color': (200, 50, 255),
+        'next': 'sapphire_act',
+        'type': 'act',
+        'rarity': 11,
+        'price': 500000000
+    },
+    'sapphire_act': {
+        'name': 'Сапфировый акт',
+        'chance': 0.000000000000625,
+        'bonus': 30.0,
+        'color': LIGHT_SAPPHIRE,
+        'next': None,
+        'type': 'act',
+        'rarity': 12,
+        'price': 1500000000
+    }
+}
+
+INVENTORY_LEVELS = {
+    'wooden_inver': {
+        'name': 'Деревянный инвентарь',
+        'cols': 5,
+        'rows': 3,
+        'cost': 5000,
+        'color': (139, 69, 19),
+        'next': 'stone_inver',
+        'rarity': 1
+    },
+    'stone_inver': {
+        'name': 'Каменный инвентарь',
+        'cols': 7,
+        'rows': 3,
+        'cost': 50000,
+        'color': (128, 128, 128),
+        'next': 'copper_inver',
+        'rarity': 2
+    },
+    'copper_inver': {
+        'name': 'Медный инвентарь',
+        'cols': 9,
+        'rows': 3,
+        'cost': 1000000,
+        'color': (184, 115, 51),
+        'next': 'iron_inver',
+        'rarity': 3
+    },
+    'iron_inver': {
+        'name': 'Железный инвентарь',
+        'cols': 9,
+        'rows': 4,
+        'cost': 25000000,
+        'color': (192, 192, 192),
+        'next': 'golden_inver',
+        'rarity': 4
+    },
+    'golden_inver': {
+        'name': 'Золотой инвентарь',
+        'cols': 9,
+        'rows': 5,
+        'cost': 100000000,
+        'color': (255, 215, 0),
+        'next': 'emerald_inver',
+        'rarity': 5
+    },
+    'emerald_inver': {
+        'name': 'Изумрудный инвентарь',
+        'cols': 9,
+        'rows': 6,
+        'cost': 500000000,
+        'color': (80, 200, 80),
+        'next': 'diamond_inver',
+        'rarity': 6
+    },
+    'diamond_inver': {
+        'name': 'Алмазный инвентарь',
+        'cols': 9,
+        'rows': 7,
+        'cost': 5000000000,
+        'color': (0, 255, 255),
+        'next': None,
+        'rarity': 7
     }
 }
 
@@ -389,16 +607,15 @@ def get_rarity_order():
         drags = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'drag']
         apples = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'apple']
         rolls = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'roll']
-        sorted_items.extend(drags + apples + rolls)
+        acts = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'act']
+        sorted_items.extend(drags + apples + rolls + acts)
     
     return sorted_items
 
-ITEM_ORDER = ['wooden_drag', 'stone_drag', 'copper_drag', 'iron_drag', 
-              'golden_drag', 'emerald_drag', 'diamond_drag', 'ruby_drag', 'netherite_drag', 'obsidian_drag', 'magic_drag',
-              'apple', 'wooden_apple', 'stone_apple', 'copper_apple', 'iron_apple',
-              'golden_apple', 'emerald_apple', 'diamond_apple', 'ruby_apple', 'netherite_apple', 'obsidian_apple', 'magic_apple',
-              'wooden_roll', 'stone_roll', 'copper_roll', 'iron_roll', 'golden_roll',
-              'emerald_roll', 'diamond_roll', 'ruby_roll', 'netherite_roll', 'obsidian_roll', 'magic_roll']
+ITEM_ORDER = sorted(ITEMS.keys(), key=lambda x: ITEMS[x]['chance'], reverse=True)
+
+INVENTORY_LEVEL_ORDER = ['wooden_inver', 'stone_inver', 'copper_inver', 'iron_inver', 
+                         'golden_inver', 'emerald_inver', 'diamond_inver']
 
 def load_data():
     if os.path.exists(DATA_FILE):
@@ -406,9 +623,11 @@ def load_data():
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 return json.load(f)
         except:
-            return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 'passive_level': 0, 'inventory': []}
+            return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 
+                    'passive_level': 0, 'inventory': [], 'inventory_level': None, 'active_multiplier': 1.0}
     else:
-        return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 'passive_level': 0, 'inventory': []}
+        return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 
+                'passive_level': 0, 'inventory': [], 'inventory_level': None, 'active_multiplier': 1.0}
 
 def save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
@@ -536,7 +755,7 @@ class ShopItem:
         self.item_id = item_id
         self.is_hovered = False
         
-    def draw(self, surface, font_tiny, texture):
+    def draw(self, surface, font_tiny, font_mini, texture):
         shadow_rect = self.rect.copy()
         shadow_rect.x += 2
         shadow_rect.y += 2
@@ -550,13 +769,58 @@ class ShopItem:
             pygame.draw.rect(surface, GRAY, self.rect, 2, border_radius=10)
         
         if texture:
-            tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 5))
+            tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 8))
             surface.blit(texture, tex_rect)
         
         price = ITEMS[self.item_id]['price']
-        price_text = font_tiny.render(format_number(price), True, GOLD)
-        price_rect = price_text.get_rect(center=(self.rect.centerx, self.rect.bottom - 10))
+        price_text = font_mini.render(format_number(price), True, GOLD)
+        price_rect = price_text.get_rect(center=(self.rect.centerx, self.rect.bottom - 8))
         surface.blit(price_text, price_rect)
+        
+    def draw_tooltip(self, surface, font_tiny, font_mini, mouse_pos):
+        if not self.is_hovered:
+            return
+        
+        item_data = ITEMS[self.item_id]
+        item_type = item_data['type']
+        bonus = item_data['bonus']
+        
+        tooltip_width = 180
+        tooltip_height = 50
+        tooltip_x = mouse_pos[0] - tooltip_width // 2
+        tooltip_y = mouse_pos[1] + 15
+        
+        if tooltip_y + tooltip_height > WINDOW_HEIGHT - 50:
+            tooltip_y = mouse_pos[1] - tooltip_height - 15
+        
+        if tooltip_x < 5:
+            tooltip_x = 5
+        elif tooltip_x + tooltip_width > WINDOW_WIDTH - 5:
+            tooltip_x = WINDOW_WIDTH - tooltip_width - 5
+        
+        tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+        pygame.draw.rect(surface, (20, 20, 20, 230), tooltip_rect, border_radius=8)
+        pygame.draw.rect(surface, GOLD, tooltip_rect, 1, border_radius=8)
+        
+        name_text = font_tiny.render(item_data['name'], True, item_data['color'])
+        name_rect = name_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 12))
+        surface.blit(name_text, name_rect)
+        
+        if item_type == 'drag':
+            bonus_text = f"+{bonus} за клик"
+        elif item_type == 'apple':
+            bonus_text = f"+{bonus} в сек"
+        elif item_type == 'roll':
+            bonus_text = f"x{bonus} скорость пассива"
+        elif item_type == 'act':
+            bonus_text = f"x{bonus} активный доход"
+        else:
+            bonus_text = f"+{bonus}"
+        
+        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else (BLUE if item_type == 'roll' else PURPLE))
+        bonus_text_surf = font_mini.render(bonus_text, True, bonus_color)
+        bonus_rect = bonus_text_surf.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 32))
+        surface.blit(bonus_text_surf, bonus_rect)
         
     def handle_event(self, event):
         if event.type == pygame.MOUSEMOTION:
@@ -668,6 +932,44 @@ class TabButton:
                 return 'click'
         return None
 
+class InventoryUpgradeButton:
+    def __init__(self, x, y, size):
+        self.rect = pygame.Rect(x, y, size, size)
+        self.is_hovered = False
+        self.level_id = None
+        
+    def draw(self, surface, font_tiny, texture):
+        shadow_rect = self.rect.copy()
+        shadow_rect.x += 2
+        shadow_rect.y += 2
+        pygame.draw.rect(surface, (0, 0, 0, 80), shadow_rect, border_radius=10)
+        
+        if self.is_hovered:
+            pygame.draw.rect(surface, (80, 80, 80), self.rect, border_radius=10)
+            pygame.draw.rect(surface, GOLD, self.rect, 3, border_radius=10)
+        else:
+            pygame.draw.rect(surface, (40, 40, 40), self.rect, border_radius=10)
+            pygame.draw.rect(surface, GRAY, self.rect, 2, border_radius=10)
+        
+        if texture:
+            tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 5))
+            surface.blit(texture, tex_rect)
+        
+        if self.level_id and self.level_id in INVENTORY_LEVELS:
+            price = INVENTORY_LEVELS[self.level_id]['cost']
+            price_text = font_tiny.render(format_number(price), True, GOLD)
+            price_rect = price_text.get_rect(center=(self.rect.centerx, self.rect.bottom - 10))
+            surface.blit(price_text, price_rect)
+        
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.is_hovered = self.rect.collidepoint(event.pos)
+            return False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.is_hovered and event.button == 1:
+                return 'click'
+        return None
+
 class ClickerGame:
     def __init__(self):
         self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
@@ -686,6 +988,8 @@ class ClickerGame:
         self.passive_income = self.data['passive_income']
         self.passive_level = self.data['passive_level']
         self.inventory = self.data.get('inventory', [])
+        self.inventory_level = self.data.get('inventory_level', None)
+        self.active_multiplier = self.data.get('active_multiplier', 1.0)
         
         self.textures = {}
         self.load_textures()
@@ -702,6 +1006,10 @@ class ClickerGame:
         self.hovered_inventory_slot = None
         self.passive_speed_multiplier = 1.0
         self.hovered_item_info = None
+        self.active_click_multiplier = 1.0
+        
+        if self.inventory_level is None or self.inventory_level not in INVENTORY_LEVELS:
+            self.inventory_level = None
         
         self.create_buttons()
         self.create_inventory_slots()
@@ -709,6 +1017,23 @@ class ClickerGame:
         
         self.data_changed = False
         self.apply_item_bonuses()
+        
+    def get_inventory_size(self):
+        if self.inventory_level and self.inventory_level in INVENTORY_LEVELS:
+            level_data = INVENTORY_LEVELS[self.inventory_level]
+            return level_data['cols'], level_data['rows']
+        return 3, 3
+    
+    def get_inventory_slot_count(self):
+        cols, rows = self.get_inventory_size()
+        return cols * rows
+    
+    def get_next_level(self):
+        if self.inventory_level is None:
+            return 'wooden_inver'
+        if self.inventory_level in INVENTORY_LEVELS:
+            return INVENTORY_LEVELS[self.inventory_level].get('next')
+        return None
         
     def sort_inventory_by_rarity(self):
         item_counts = {}
@@ -740,6 +1065,18 @@ class ClickerGame:
             else:
                 self.textures[item_id] = None
                 
+        for level_id in INVENTORY_LEVELS.keys():
+            path = os.path.join(TEXTURES_DIR, f"{level_id}.png")
+            if os.path.exists(path):
+                try:
+                    tex = pygame.image.load(path).convert_alpha()
+                    tex = pygame.transform.scale(tex, (40, 40))
+                    self.textures[level_id] = tex
+                except:
+                    self.textures[level_id] = None
+            else:
+                self.textures[level_id] = None
+                
     def create_buttons(self):
         self.click_button = Button(
             WINDOW_WIDTH//2 - 100,
@@ -764,6 +1101,15 @@ class ClickerGame:
             BLACK,
             DARK_GOLD
         )
+        
+        self.inv_upgrade_button = InventoryUpgradeButton(
+            10,
+            70 + OFFSET_Y,
+            60
+        )
+        next_level = self.get_next_level()
+        if next_level:
+            self.inv_upgrade_button.level_id = next_level
         
         self.main_tab_button = TabButton(
             10,
@@ -834,14 +1180,15 @@ class ClickerGame:
         self.craft_button = CraftButton(craft_button_x, 520 + OFFSET_Y, slot_size)
         
         self.inv_grid_slots = []
-        cols = 9
+        cols, rows = self.get_inventory_size()
         total_width = cols * slot_size + (cols - 1) * spacing
         start_x = (WINDOW_WIDTH - total_width) // 2
+        start_y = 120 + OFFSET_Y
         
-        for row in range(4):
+        for row in range(rows):
             for col in range(cols):
                 x = start_x + col * (slot_size + spacing)
-                y = 300 + row * (slot_size + spacing)
+                y = start_y + row * (slot_size + spacing)
                 slot = InventorySlot(x, y, slot_size)
                 self.inv_grid_slots.append(slot)
         
@@ -900,6 +1247,48 @@ class ClickerGame:
                     self.hovered_inventory_slot = slot
                     self.hovered_item_info = (slot.item, slot.rect)
                     return
+    
+    def upgrade_inventory(self):
+        next_level = self.get_next_level()
+        
+        if next_level is None:
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                120 + OFFSET_Y,
+                "Максимальный уровень!",
+                RED
+            )
+            return False
+        
+        cost = INVENTORY_LEVELS[next_level]['cost']
+        if self.money >= cost:
+            self.money -= cost
+            self.inventory_level = next_level
+            self.data_changed = True
+            
+            self.create_inventory_slots()
+            
+            next_level_after = self.get_next_level()
+            if next_level_after:
+                self.inv_upgrade_button.level_id = next_level_after
+            else:
+                self.inv_upgrade_button.level_id = None
+            
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                120 + OFFSET_Y,
+                f"Инвентарь улучшен!",
+                GREEN
+            )
+            return True
+        else:
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                120 + OFFSET_Y,
+                f"Нужно: {format_number(cost)}",
+                RED
+            )
+            return False
     
     def buy_item(self, item_id):
         if item_id not in ITEMS:
@@ -969,7 +1358,7 @@ class ClickerGame:
                 continue
                 
             item_type = ITEMS[item_id]['type']
-            if item_type == 'roll':
+            if item_type == 'roll' or item_type == 'act':
                 required_count = 3
             else:
                 required_count = 5 if item_type == 'drag' else 3
@@ -1035,6 +1424,7 @@ class ClickerGame:
         total_bonus = 0
         total_passive = 0
         roll_multiplier = 1.0
+        active_multiplier = 1.0
         
         for item_id in self.inventory:
             if item_id in ITEMS:
@@ -1044,10 +1434,13 @@ class ClickerGame:
                     total_passive += ITEMS[item_id]['bonus']
                 elif ITEMS[item_id]['type'] == 'roll':
                     roll_multiplier *= ITEMS[item_id]['bonus']
+                elif ITEMS[item_id]['type'] == 'act':
+                    active_multiplier += ITEMS[item_id]['bonus']
         
         self.item_bonus = total_bonus
         self.item_passive_bonus = total_passive
         self.passive_speed_multiplier = roll_multiplier
+        self.active_click_multiplier = active_multiplier
         self.data_changed = True
         
     def find_nearest_empty_slot(self, mouse_pos):
@@ -1147,7 +1540,8 @@ class ClickerGame:
             self.screen.blit(surf, (text['x'] - surf.get_width()//2, text['y']))
             
     def handle_click(self):
-        earnings = 1 + self.multiplier + getattr(self, 'item_bonus', 0)
+        base_earnings = 1 + self.multiplier + getattr(self, 'item_bonus', 0)
+        earnings = int(base_earnings * getattr(self, 'active_click_multiplier', 1.0))
         self.money += earnings
         self.click_count += 1
         self.data_changed = True
@@ -1160,7 +1554,7 @@ class ClickerGame:
     def try_drop_item(self):
         roll = random.random() * 100
         
-        for item_id in reversed(ITEM_ORDER):
+        for item_id in ITEM_ORDER:
             chance = ITEMS[item_id]['chance'] * 100
             if roll < chance:
                 if len(self.inventory) >= len(self.inv_grid_slots):
@@ -1262,7 +1656,9 @@ class ClickerGame:
                 'click_count': self.click_count,
                 'passive_income': self.passive_income,
                 'passive_level': self.passive_level,
-                'inventory': self.inventory
+                'inventory': self.inventory,
+                'inventory_level': self.inventory_level,
+                'active_multiplier': self.active_click_multiplier
             }
             save_data(self.data)
             self.data_changed = False
@@ -1284,8 +1680,9 @@ class ClickerGame:
         total_bonus = self.multiplier + getattr(self, 'item_bonus', 0)
         total_passive = self.passive_income + getattr(self, 'item_passive_bonus', 0)
         speed_mult = getattr(self, 'passive_speed_multiplier', 1.0)
-        earnings = 1 + total_bonus
-        earnings_text = self.font_small.render(f"+{earnings} за клик / +{total_passive} в сек (x{speed_mult:.1f})", True, GOLD)
+        active_mult = getattr(self, 'active_click_multiplier', 1.0)
+        earnings = int((1 + total_bonus) * active_mult)
+        earnings_text = self.font_small.render(f"+{earnings} за клик (x{active_mult:.1f}) / +{total_passive} в сек (x{speed_mult:.1f})", True, GOLD)
         earnings_rect = earnings_text.get_rect(center=(WINDOW_WIDTH//2, 145 + OFFSET_Y))
         self.screen.blit(earnings_text, earnings_rect)
         
@@ -1312,6 +1709,11 @@ class ClickerGame:
         self.passive_button.text = passive_button_text
         self.passive_button.draw(self.screen, self.font_tiny)
         
+        texture = None
+        if self.inv_upgrade_button.level_id:
+            texture = self.textures.get(self.inv_upgrade_button.level_id)
+        self.inv_upgrade_button.draw(self.screen, self.font_mini, texture)
+        
     def draw_shop_tab(self):
         title = self.font_medium.render("МАГАЗИН", True, GOLD)
         title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
@@ -1321,13 +1723,13 @@ class ClickerGame:
         subtitle_rect = subtitle.get_rect(center=(WINDOW_WIDTH//2, 95 + OFFSET_Y))
         self.screen.blit(subtitle, subtitle_rect)
         
+        mouse_pos = pygame.mouse.get_pos()
         for shop_item in self.shop_items:
             texture = self.textures.get(shop_item.item_id)
-            shop_item.draw(self.screen, self.font_mini, texture)
+            shop_item.draw(self.screen, self.font_tiny, self.font_mini, texture)
         
-        hint = self.font_mini.render("ЛКМ по товару - покупка", True, (150, 150, 150))
-        hint_rect = hint.get_rect(center=(WINDOW_WIDTH//2, WINDOW_HEIGHT - 60))
-        self.screen.blit(hint, hint_rect)
+        for shop_item in self.shop_items:
+            shop_item.draw_tooltip(self.screen, self.font_tiny, self.font_mini, mouse_pos)
         
     def draw_item_bonuses(self):
         if not self.inventory:
@@ -1403,11 +1805,13 @@ class ClickerGame:
         elif item_type == 'apple':
             bonus_text = f"+{bonus} в сек"
         elif item_type == 'roll':
-            bonus_text = f"x{bonus} скорость"
+            bonus_text = f"x{bonus} скорость пассива"
+        elif item_type == 'act':
+            bonus_text = f"x{bonus} активный доход"
         else:
             bonus_text = f"+{bonus}"
         
-        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else BLUE)
+        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else (BLUE if item_type == 'roll' else PURPLE))
         bonus_text_surf = self.font_mini.render(bonus_text, True, bonus_color)
         bonus_rect = bonus_text_surf.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 32))
         self.screen.blit(bonus_text_surf, bonus_rect)
@@ -1417,7 +1821,9 @@ class ClickerGame:
         title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
         self.screen.blit(title, title_rect)
         
-        count_text = self.font_small.render(f"Всего: {len(self.inventory)} / {len(self.inv_grid_slots)}", True, LIGHT_GRAY)
+        cols, rows = self.get_inventory_size()
+        total_slots = cols * rows
+        count_text = self.font_small.render(f"Всего: {len(self.inventory)} / {total_slots} ({cols}x{rows})", True, LIGHT_GRAY)
         count_rect = count_text.get_rect(center=(WINDOW_WIDTH//2, 100 + OFFSET_Y))
         self.screen.blit(count_text, count_rect)
         
@@ -1550,6 +1956,10 @@ class ClickerGame:
                     action = self.passive_button.handle_event(event)
                     if action == 'click':
                         self.handle_passive_purchase()
+                    
+                    action = self.inv_upgrade_button.handle_event(event)
+                    if action == 'click':
+                        self.upgrade_inventory()
                 
                 elif self.current_tab == 'inventory':
                     if event.type == pygame.MOUSEMOTION:
