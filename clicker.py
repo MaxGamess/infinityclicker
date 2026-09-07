@@ -28,6 +28,9 @@ DARK_GRAY = (50, 50, 50)
 LIGHT_GRAY = (180, 180, 180)
 SAPPHIRE = (15, 82, 186)
 LIGHT_SAPPHIRE = (100, 180, 255)
+ORANGE = (255, 165, 0)
+CYAN = (0, 255, 255)
+PINK = (255, 105, 180)
 
 DATA_FILE = 'data.json'
 TEXTURES_DIR = './textures/'
@@ -35,496 +38,803 @@ TEXTURES_DIR = './textures/'
 OFFSET_Y = 50
 TITLE_OFFSET_Y = 20
 
+CASES = {
+    'wooden_case': 0.001,
+    'stone_case': 0.0005,
+    'copper_case': 0.0003,
+    'iron_case': 0.00005,
+    'golden_case': 0.00001,
+    'emerald_case': 0.0000025,
+    'diamond_case': 0.0000005,
+    'ruby_case': 0.0000001,
+    'netherite_case': 0.000000025,
+    'obsidian_case': 0.000000005,
+    'magic_case': 0.000000001,
+    'sapphire_case': 0.00000000025
+}
+
+CASE_NAMES = {
+    'wooden_case': 'Деревянный кейс',
+    'stone_case': 'Каменный кейс',
+    'copper_case': 'Медный кейс',
+    'iron_case': 'Железный кейс',
+    'golden_case': 'Золотой кейс',
+    'emerald_case': 'Изумрудный кейс',
+    'diamond_case': 'Алмазный кейс',
+    'ruby_case': 'Рубиновый кейс',
+    'netherite_case': 'Незеритовый кейс',
+    'obsidian_case': 'Обсидиановый кейс',
+    'magic_case': 'Магический кейс',
+    'sapphire_case': 'Сапфировый кейс'
+}
+
+CASE_CONTENTS = {
+    'wooden_case': {
+        'items': ['wooden_drag', 'wooden_apple', 'wooden_roll', 'wooden_act', 'wooden_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (139, 69, 19)
+    },
+    'stone_case': {
+        'items': ['stone_drag', 'stone_apple', 'stone_roll', 'stone_act', 'stone_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (128, 128, 128)
+    },
+    'copper_case': {
+        'items': ['copper_drag', 'copper_apple', 'copper_roll', 'copper_act', 'copper_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (184, 115, 51)
+    },
+    'iron_case': {
+        'items': ['iron_drag', 'iron_apple', 'iron_roll', 'iron_act', 'iron_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (192, 192, 192)
+    },
+    'golden_case': {
+        'items': ['golden_drag', 'golden_apple', 'golden_roll', 'golden_act', 'golden_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (255, 215, 0)
+    },
+    'emerald_case': {
+        'items': ['emerald_drag', 'emerald_apple', 'emerald_roll', 'emerald_act', 'emerald_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (80, 200, 80)
+    },
+    'diamond_case': {
+        'items': ['diamond_drag', 'diamond_apple', 'diamond_roll', 'diamond_act', 'diamond_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (0, 255, 255)
+    },
+    'ruby_case': {
+        'items': ['ruby_drag', 'ruby_apple', 'ruby_roll', 'ruby_act', 'ruby_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (200, 0, 0)
+    },
+    'netherite_case': {
+        'items': ['netherite_drag', 'netherite_apple', 'netherite_roll', 'netherite_act', 'netherite_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (80, 0, 80)
+    },
+    'obsidian_case': {
+        'items': ['obsidian_drag', 'obsidian_apple', 'obsidian_roll', 'obsidian_act', 'obsidian_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (60, 20, 80)
+    },
+    'magic_case': {
+        'items': ['magic_drag', 'magic_apple', 'magic_roll', 'magic_act', 'magic_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': (200, 50, 255)
+    },
+    'sapphire_case': {
+        'items': ['sapphire_drag', 'sapphire_apple', 'sapphire_roll', 'sapphire_act', 'sapphire_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': LIGHT_SAPPHIRE
+    }
+}
+
+CASE_ORDER = ['wooden_case', 'stone_case', 'copper_case', 'iron_case', 'golden_case', 
+              'emerald_case', 'diamond_case', 'ruby_case', 'netherite_case', 
+              'obsidian_case', 'magic_case', 'sapphire_case']
+
+TIER_ORDER = ['sapphire', 'magic', 'obsidian', 'netherite', 'ruby', 'diamond', 
+              'emerald', 'golden', 'iron', 'copper', 'stone', 'wooden']
+
+CROSS_ITEMS = {
+    'wooden_cross': {
+        'name': 'Деревянный крест',
+        'price': 10000,
+        'color': (139, 69, 19),
+        'tier': 'wooden'
+    },
+    'stone_cross': {
+        'name': 'Каменный крест',
+        'price': 30000,
+        'color': (128, 128, 128),
+        'tier': 'stone'
+    },
+    'copper_cross': {
+        'name': 'Медный крест',
+        'price': 90000,
+        'color': (184, 115, 51),
+        'tier': 'copper'
+    },
+    'iron_cross': {
+        'name': 'Железный крест',
+        'price': 270000,
+        'color': (192, 192, 192),
+        'tier': 'iron'
+    },
+    'golden_cross': {
+        'name': 'Золотой крест',
+        'price': 800000,
+        'color': (255, 215, 0),
+        'tier': 'golden'
+    },
+    'emerald_cross': {
+        'name': 'Изумрудный крест',
+        'price': 2400000,
+        'color': (80, 200, 80),
+        'tier': 'emerald'
+    },
+    'diamond_cross': {
+        'name': 'Алмазный крест',
+        'price': 7200000,
+        'color': (0, 255, 255),
+        'tier': 'diamond'
+    },
+    'ruby_cross': {
+        'name': 'Рубиновый крест',
+        'price': 21000000,
+        'color': (200, 0, 0),
+        'tier': 'ruby'
+    },
+    'netherite_cross': {
+        'name': 'Незеритовый крест',
+        'price': 63000000,
+        'color': (80, 0, 80),
+        'tier': 'netherite'
+    },
+    'obsidian_cross': {
+        'name': 'Обсидиановый крест',
+        'price': 180000000,
+        'color': (60, 20, 80),
+        'tier': 'obsidian'
+    },
+    'magic_cross': {
+        'name': 'Магический крест',
+        'price': 540000000,
+        'color': (200, 50, 255),
+        'tier': 'magic'
+    },
+    'sapphire_cross': {
+        'name': 'Сапфировый крест',
+        'price': 1600000000,
+        'color': LIGHT_SAPPHIRE,
+        'tier': 'sapphire'
+    }
+}
+
 ITEMS = {
     'wooden_drag': {
         'name': 'Деревянный драг',
-        'chance': 0.01,
         'bonus': 1,
         'color': (139, 69, 19),
         'next': 'stone_drag',
         'type': 'drag',
         'rarity': 1,
-        'price': 1000
+        'price': 1000,
+        'tier': 'wooden'
     },
     'apple': {
         'name': 'Яблоко',
-        'chance': 0.005,
         'bonus': 1,
         'color': (255, 50, 50),
         'next': 'wooden_apple',
         'type': 'apple',
         'rarity': 1,
-        'price': 1500
+        'price': 1500,
+        'tier': 'wooden'
     },
     'wooden_roll': {
         'name': 'Деревянный ролл',
-        'chance': 0.0025,
         'bonus': 1.1,
         'color': (139, 69, 19),
         'next': 'stone_roll',
         'type': 'roll',
         'rarity': 1,
-        'price': 2000
+        'price': 2000,
+        'tier': 'wooden'
     },
     'stone_drag': {
         'name': 'Каменный драг',
-        'chance': 0.003,
         'bonus': 2,
         'color': (128, 128, 128),
         'next': 'copper_drag',
         'type': 'drag',
         'rarity': 2,
-        'price': 5000
+        'price': 5000,
+        'tier': 'stone'
     },
     'wooden_apple': {
         'name': 'Деревянное яблоко',
-        'chance': 0.00075,
         'bonus': 2,
         'color': (139, 69, 19),
         'next': 'stone_apple',
         'type': 'apple',
         'rarity': 2,
-        'price': 4500
+        'price': 4500,
+        'tier': 'wooden'
     },
     'stone_roll': {
         'name': 'Каменный ролл',
-        'chance': 0.000375,
         'bonus': 1.3,
         'color': (128, 128, 128),
         'next': 'copper_roll',
         'type': 'roll',
         'rarity': 2,
-        'price': 6000
+        'price': 6000,
+        'tier': 'stone'
     },
     'copper_drag': {
         'name': 'Медный драг',
-        'chance': 0.0005,
         'bonus': 3,
         'color': (184, 115, 51),
         'next': 'iron_drag',
         'type': 'drag',
         'rarity': 3,
-        'price': 25000
+        'price': 25000,
+        'tier': 'copper'
     },
     'stone_apple': {
         'name': 'Каменное яблоко',
-        'chance': 0.00015,
         'bonus': 3,
         'color': (128, 128, 128),
         'next': 'copper_apple',
         'type': 'apple',
         'rarity': 3,
-        'price': 13500
+        'price': 13500,
+        'tier': 'stone'
     },
     'copper_roll': {
         'name': 'Медный ролл',
-        'chance': 0.000075,
         'bonus': 1.5,
         'color': (184, 115, 51),
         'next': 'iron_roll',
         'type': 'roll',
         'rarity': 3,
-        'price': 18000
+        'price': 18000,
+        'tier': 'copper'
     },
     'iron_drag': {
         'name': 'Железный драг',
-        'chance': 0.00005,
         'bonus': 4,
         'color': (192, 192, 192),
         'next': 'golden_drag',
         'type': 'drag',
         'rarity': 4,
-        'price': 120000
+        'price': 120000,
+        'tier': 'iron'
     },
     'copper_apple': {
         'name': 'Медное яблоко',
-        'chance': 0.000025,
         'bonus': 4,
         'color': (184, 115, 51),
         'next': 'iron_apple',
         'type': 'apple',
         'rarity': 4,
-        'price': 40000
+        'price': 40000,
+        'tier': 'copper'
     },
     'iron_roll': {
         'name': 'Железный ролл',
-        'chance': 0.0000125,
         'bonus': 1.7,
         'color': (192, 192, 192),
         'next': 'golden_roll',
         'type': 'roll',
         'rarity': 4,
-        'price': 55000
+        'price': 55000,
+        'tier': 'iron'
     },
     'golden_drag': {
         'name': 'Золотой драг',
-        'chance': 0.000005,
         'bonus': 5,
         'color': (255, 215, 0),
         'next': 'emerald_drag',
         'type': 'drag',
         'rarity': 5,
-        'price': 550000
+        'price': 550000,
+        'tier': 'golden'
     },
     'iron_apple': {
         'name': 'Железное яблоко',
-        'chance': 0.000025,
         'bonus': 5,
         'color': (192, 192, 192),
         'next': 'golden_apple',
         'type': 'apple',
         'rarity': 5,
-        'price': 120000
+        'price': 120000,
+        'tier': 'iron'
     },
     'golden_roll': {
         'name': 'Золотой ролл',
-        'chance': 0.0000125,
         'bonus': 2.0,
         'color': (255, 215, 0),
         'next': 'emerald_roll',
         'type': 'roll',
         'rarity': 5,
-        'price': 160000
+        'price': 160000,
+        'tier': 'golden'
     },
     'emerald_drag': {
         'name': 'Изумрудный драг',
-        'chance': 0.0000005,
         'bonus': 7,
         'color': (80, 200, 80),
         'next': 'diamond_drag',
         'type': 'drag',
         'rarity': 6,
-        'price': 2500000
+        'price': 2500000,
+        'tier': 'emerald'
     },
     'golden_apple': {
         'name': 'Золотое яблоко',
-        'chance': 0.0000025,
         'bonus': 7,
         'color': (255, 215, 0),
         'next': 'emerald_apple',
         'type': 'apple',
         'rarity': 6,
-        'price': 360000
+        'price': 360000,
+        'tier': 'golden'
     },
     'emerald_roll': {
         'name': 'Изумрудный ролл',
-        'chance': 0.00000125,
         'bonus': 2.2,
         'color': (80, 200, 80),
         'next': 'diamond_roll',
         'type': 'roll',
         'rarity': 6,
-        'price': 450000
+        'price': 450000,
+        'tier': 'emerald'
     },
     'diamond_drag': {
         'name': 'Алмазный драг',
-        'chance': 0.00000005,
         'bonus': 9,
         'color': (0, 255, 255),
         'next': 'ruby_drag',
         'type': 'drag',
         'rarity': 7,
-        'price': 10000000
+        'price': 10000000,
+        'tier': 'diamond'
     },
     'emerald_apple': {
         'name': 'Изумрудное яблоко',
-        'chance': 0.00000025,
         'bonus': 9,
         'color': (80, 200, 80),
         'next': 'diamond_apple',
         'type': 'apple',
         'rarity': 7,
-        'price': 1000000
+        'price': 1000000,
+        'tier': 'emerald'
     },
     'diamond_roll': {
         'name': 'Алмазный ролл',
-        'chance': 0.000000125,
         'bonus': 2.5,
         'color': (0, 255, 255),
         'next': 'ruby_roll',
         'type': 'roll',
         'rarity': 7,
-        'price': 1200000
+        'price': 1200000,
+        'tier': 'diamond'
     },
     'ruby_drag': {
         'name': 'Рубиновый драг',
-        'chance': 0.000000005,
         'bonus': 12,
         'color': (200, 0, 0),
         'next': 'netherite_drag',
         'type': 'drag',
         'rarity': 8,
-        'price': 50000000
+        'price': 50000000,
+        'tier': 'ruby'
     },
     'diamond_apple': {
         'name': 'Алмазное яблоко',
-        'chance': 0.000000025,
         'bonus': 12,
         'color': (0, 255, 255),
         'next': 'ruby_apple',
         'type': 'apple',
         'rarity': 8,
-        'price': 3000000
+        'price': 3000000,
+        'tier': 'diamond'
     },
     'ruby_roll': {
         'name': 'Рубиновый ролл',
-        'chance': 0.0000000125,
         'bonus': 2.7,
         'color': (200, 0, 0),
         'next': 'netherite_roll',
         'type': 'roll',
         'rarity': 8,
-        'price': 3500000
+        'price': 3500000,
+        'tier': 'ruby'
     },
     'netherite_drag': {
         'name': 'Незеритовый драг',
-        'chance': 0.0000000005,
         'bonus': 15,
         'color': (80, 0, 80),
         'next': 'obsidian_drag',
         'type': 'drag',
         'rarity': 9,
-        'price': 250000000
+        'price': 250000000,
+        'tier': 'netherite'
     },
     'ruby_apple': {
         'name': 'Рубиновое яблоко',
-        'chance': 0.0000000025,
         'bonus': 15,
         'color': (200, 0, 0),
         'next': 'netherite_apple',
         'type': 'apple',
         'rarity': 9,
-        'price': 9000000
+        'price': 9000000,
+        'tier': 'ruby'
     },
     'netherite_roll': {
         'name': 'Незеритовый ролл',
-        'chance': 0.00000000125,
         'bonus': 3.0,
         'color': (80, 0, 80),
         'next': 'obsidian_roll',
         'type': 'roll',
         'rarity': 9,
-        'price': 12000000
+        'price': 12000000,
+        'tier': 'netherite'
     },
     'netherite_apple': {
         'name': 'Незеритовое яблоко',
-        'chance': 0.00000000025,
         'bonus': 20,
         'color': (80, 0, 80),
         'next': 'obsidian_apple',
         'type': 'apple',
         'rarity': 10,
-        'price': 25000000
+        'price': 25000000,
+        'tier': 'netherite'
     },
     'obsidian_drag': {
         'name': 'Обсидиановый драг',
-        'chance': 0.00000000005,
         'bonus': 20,
         'color': (60, 20, 80),
         'next': 'magic_drag',
         'type': 'drag',
         'rarity': 10,
-        'price': 1000000000
+        'price': 1000000000,
+        'tier': 'obsidian'
     },
     'obsidian_apple': {
         'name': 'Обсидиановое яблоко',
-        'chance': 0.000000000025,
         'bonus': 30,
         'color': (60, 20, 80),
         'next': 'magic_apple',
         'type': 'apple',
         'rarity': 11,
-        'price': 75000000
+        'price': 75000000,
+        'tier': 'obsidian'
     },
     'obsidian_roll': {
         'name': 'Обсидиановый ролл',
-        'chance': 0.000000000125,
         'bonus': 5.0,
         'color': (60, 20, 80),
         'next': 'magic_roll',
         'type': 'roll',
         'rarity': 10,
-        'price': 35000000
+        'price': 35000000,
+        'tier': 'obsidian'
     },
     'magic_drag': {
         'name': 'Магический драг',
-        'chance': 0.000000000005,
         'bonus': 30,
         'color': (200, 50, 255),
         'next': 'sapphire_drag',
         'type': 'drag',
         'rarity': 11,
-        'price': 5000000000
+        'price': 5000000000,
+        'tier': 'magic'
     },
     'magic_apple': {
         'name': 'Магическое яблоко',
-        'chance': 0.0000000000025,
         'bonus': 40,
         'color': (200, 50, 255),
         'next': 'sapphire_apple',
         'type': 'apple',
         'rarity': 12,
-        'price': 220000000
+        'price': 220000000,
+        'tier': 'magic'
     },
     'magic_roll': {
         'name': 'Магический ролл',
-        'chance': 0.0000000000125,
         'bonus': 10.0,
         'color': (200, 50, 255),
         'next': 'sapphire_roll',
         'type': 'roll',
         'rarity': 11,
-        'price': 100000000
+        'price': 100000000,
+        'tier': 'magic'
     },
     'sapphire_drag': {
         'name': 'Сапфировый драг',
-        'chance': 0.0000000000005,
         'bonus': 50,
         'color': SAPPHIRE,
         'next': None,
         'type': 'drag',
         'rarity': 12,
-        'price': 20000000000
+        'price': 20000000000,
+        'tier': 'sapphire'
     },
     'sapphire_apple': {
         'name': 'Сапфировое яблоко',
-        'chance': 0.00000000000025,
         'bonus': 50,
         'color': LIGHT_SAPPHIRE,
         'next': None,
         'type': 'apple',
         'rarity': 13,
-        'price': 600000000
+        'price': 600000000,
+        'tier': 'sapphire'
     },
     'sapphire_roll': {
         'name': 'Сапфировый ролл',
-        'chance': 0.00000000000125,
         'bonus': 20.0,
         'color': LIGHT_SAPPHIRE,
         'next': None,
         'type': 'roll',
         'rarity': 12,
-        'price': 300000000
+        'price': 300000000,
+        'tier': 'sapphire'
     },
     'wooden_act': {
         'name': 'Деревянный акт',
-        'chance': 0.00125,
         'bonus': 1.1,
         'color': (139, 69, 19),
         'next': 'stone_act',
         'type': 'act',
         'rarity': 1,
-        'price': 15000
+        'price': 15000,
+        'tier': 'wooden'
     },
     'stone_act': {
         'name': 'Каменный акт',
-        'chance': 0.0001875,
         'bonus': 1.2,
         'color': (128, 128, 128),
         'next': 'copper_act',
         'type': 'act',
         'rarity': 2,
-        'price': 45000
+        'price': 45000,
+        'tier': 'stone'
     },
     'copper_act': {
         'name': 'Медный акт',
-        'chance': 0.0000375,
         'bonus': 1.3,
         'color': (184, 115, 51),
         'next': 'iron_act',
         'type': 'act',
         'rarity': 3,
-        'price': 130000
+        'price': 130000,
+        'tier': 'copper'
     },
     'iron_act': {
         'name': 'Железный акт',
-        'chance': 0.00000625,
         'bonus': 1.4,
         'color': (192, 192, 192),
         'next': 'golden_act',
         'type': 'act',
         'rarity': 4,
-        'price': 390000
+        'price': 390000,
+        'tier': 'iron'
     },
     'golden_act': {
         'name': 'Золотой акт',
-        'chance': 0.0000025,
         'bonus': 1.5,
         'color': (255, 215, 0),
         'next': 'emerald_act',
         'type': 'act',
         'rarity': 5,
-        'price': 1200000
+        'price': 1200000,
+        'tier': 'golden'
     },
     'emerald_act': {
         'name': 'Изумрудный акт',
-        'chance': 0.000000625,
         'bonus': 2.0,
         'color': (80, 200, 80),
         'next': 'diamond_act',
         'type': 'act',
         'rarity': 6,
-        'price': 3600000
+        'price': 3600000,
+        'tier': 'emerald'
     },
     'diamond_act': {
         'name': 'Алмазный акт',
-        'chance': 0.0000000625,
         'bonus': 2.5,
         'color': (0, 255, 255),
         'next': 'ruby_act',
         'type': 'act',
         'rarity': 7,
-        'price': 12000000
+        'price': 12000000,
+        'tier': 'diamond'
     },
     'ruby_act': {
         'name': 'Рубиновый акт',
-        'chance': 0.00000000625,
         'bonus': 3.0,
         'color': (200, 0, 0),
         'next': 'netherite_act',
         'type': 'act',
         'rarity': 8,
-        'price': 36000000
+        'price': 36000000,
+        'tier': 'ruby'
     },
     'netherite_act': {
         'name': 'Незеритовый акт',
-        'chance': 0.000000000625,
         'bonus': 4.0,
         'color': (80, 0, 80),
         'next': 'obsidian_act',
         'type': 'act',
         'rarity': 9,
-        'price': 180000000
+        'price': 180000000,
+        'tier': 'netherite'
     },
     'obsidian_act': {
         'name': 'Обсидиановый акт',
-        'chance': 0.0000000000625,
         'bonus': 5.0,
         'color': (60, 20, 80),
         'next': 'magic_act',
         'type': 'act',
         'rarity': 10,
-        'price': 500000000
+        'price': 500000000,
+        'tier': 'obsidian'
     },
     'magic_act': {
         'name': 'Магический акт',
-        'chance': 0.00000000000625,
         'bonus': 7.5,
         'color': (200, 50, 255),
         'next': 'sapphire_act',
         'type': 'act',
         'rarity': 11,
-        'price': 1500000000
+        'price': 1500000000,
+        'tier': 'magic'
     },
     'sapphire_act': {
         'name': 'Сапфировый акт',
-        'chance': 0.000000000000625,
         'bonus': 10.0,
         'color': LIGHT_SAPPHIRE,
         'next': None,
         'type': 'act',
         'rarity': 12,
-        'price': 4500000000
+        'price': 4500000000,
+        'tier': 'sapphire'
+    },
+    'wooden_rob': {
+        'name': 'Деревянная роба',
+        'bonus': 1.5,
+        'color': (139, 69, 19),
+        'next': 'stone_rob',
+        'type': 'rob',
+        'rarity': 1,
+        'price': 30000,
+        'tier': 'wooden'
+    },
+    'stone_rob': {
+        'name': 'Каменная роба',
+        'bonus': 2.0,
+        'color': (128, 128, 128),
+        'next': 'copper_rob',
+        'type': 'rob',
+        'rarity': 2,
+        'price': 90000,
+        'tier': 'stone'
+    },
+    'copper_rob': {
+        'name': 'Медная роба',
+        'bonus': 2.5,
+        'color': (184, 115, 51),
+        'next': 'iron_rob',
+        'type': 'rob',
+        'rarity': 3,
+        'price': 260000,
+        'tier': 'copper'
+    },
+    'iron_rob': {
+        'name': 'Железная роба',
+        'bonus': 3.0,
+        'color': (192, 192, 192),
+        'next': 'golden_rob',
+        'type': 'rob',
+        'rarity': 4,
+        'price': 780000,
+        'tier': 'iron'
+    },
+    'golden_rob': {
+        'name': 'Золотая роба',
+        'bonus': 4.0,
+        'color': (255, 215, 0),
+        'next': 'emerald_rob',
+        'type': 'rob',
+        'rarity': 5,
+        'price': 2350000,
+        'tier': 'golden'
+    },
+    'emerald_rob': {
+        'name': 'Изумрудная роба',
+        'bonus': 5.0,
+        'color': (80, 200, 80),
+        'next': 'diamond_rob',
+        'type': 'rob',
+        'rarity': 6,
+        'price': 7000000,
+        'tier': 'emerald'
+    },
+    'diamond_rob': {
+        'name': 'Алмазная роба',
+        'bonus': 7.0,
+        'color': (0, 255, 255),
+        'next': 'ruby_rob',
+        'type': 'rob',
+        'rarity': 7,
+        'price': 21000000,
+        'tier': 'diamond'
+    },
+    'ruby_rob': {
+        'name': 'Рубиновая роба',
+        'bonus': 10.0,
+        'color': (200, 0, 0),
+        'next': 'netherite_rob',
+        'type': 'rob',
+        'rarity': 8,
+        'price': 63000000,
+        'tier': 'ruby'
+    },
+    'netherite_rob': {
+        'name': 'Незеритовая роба',
+        'bonus': 15.0,
+        'color': (80, 0, 80),
+        'next': 'obsidian_rob',
+        'type': 'rob',
+        'rarity': 9,
+        'price': 180000000,
+        'tier': 'netherite'
+    },
+    'obsidian_rob': {
+        'name': 'Обсидиановая роба',
+        'bonus': 20.0,
+        'color': (60, 20, 80),
+        'next': 'magic_rob',
+        'type': 'rob',
+        'rarity': 10,
+        'price': 540000000,
+        'tier': 'obsidian'
+    },
+    'magic_rob': {
+        'name': 'Магическая роба',
+        'bonus': 30.0,
+        'color': (200, 50, 255),
+        'next': 'sapphire_rob',
+        'type': 'rob',
+        'rarity': 11,
+        'price': 1750000000,
+        'tier': 'magic'
+    },
+    'sapphire_rob': {
+        'name': 'Сапфировая роба',
+        'bonus': 40.0,
+        'color': LIGHT_SAPPHIRE,
+        'next': None,
+        'type': 'rob',
+        'rarity': 12,
+        'price': 5000000000,
+        'tier': 'sapphire'
     }
 }
 
@@ -594,25 +904,41 @@ INVENTORY_LEVELS = {
     }
 }
 
+SHOP_TABS = ['drag', 'apple', 'roll', 'act', 'rob', 'cross']
+SHOP_TAB_NAMES = {
+    'drag': 'Драги',
+    'apple': 'Яблоки',
+    'roll': 'Роллы',
+    'act': 'Акты',
+    'rob': 'Робы',
+    'cross': 'Кресты'
+}
+
 def get_rarity_order():
-    rarity_groups = {}
+    item_counts = {}
     for item_id, item_data in ITEMS.items():
-        rarity = item_data.get('rarity', 0)
-        if rarity not in rarity_groups:
-            rarity_groups[rarity] = []
-        rarity_groups[rarity].append(item_id)
+        tier = item_data.get('tier', 'wooden')
+        if tier not in item_counts:
+            item_counts[tier] = []
+        item_counts[tier].append(item_id)
     
     sorted_items = []
-    for rarity in sorted(rarity_groups.keys(), reverse=True):
-        drags = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'drag']
-        apples = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'apple']
-        rolls = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'roll']
-        acts = [id for id in rarity_groups[rarity] if ITEMS[id]['type'] == 'act']
-        sorted_items.extend(drags + apples + rolls + acts)
+    for tier in TIER_ORDER:
+        if tier in item_counts:
+            items = item_counts[tier]
+            drags = [id for id in items if ITEMS[id]['type'] == 'drag']
+            apples = [id for id in items if ITEMS[id]['type'] == 'apple']
+            rolls = [id for id in items if ITEMS[id]['type'] == 'roll']
+            acts = [id for id in items if ITEMS[id]['type'] == 'act']
+            robs = [id for id in items if ITEMS[id]['type'] == 'rob']
+            sorted_items.extend(drags + apples + rolls + acts + robs)
+    
+    case_items = [id for id in CASE_ORDER if id in ITEMS]
+    sorted_items.extend(case_items)
     
     return sorted_items
 
-ITEM_ORDER = sorted(ITEMS.keys(), key=lambda x: ITEMS[x]['chance'], reverse=True)
+ITEM_ORDER = sorted(ITEMS.keys(), key=lambda x: ITEMS[x].get('price', 0), reverse=True)
 
 INVENTORY_LEVEL_ORDER = ['wooden_inver', 'stone_inver', 'copper_inver', 'iron_inver', 
                          'golden_inver', 'emerald_inver', 'diamond_inver']
@@ -772,13 +1098,40 @@ class ShopItem:
             tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 8))
             surface.blit(texture, tex_rect)
         
-        price = ITEMS[self.item_id]['price']
+        if self.item_id in CROSS_ITEMS:
+            price = CROSS_ITEMS[self.item_id]['price']
+        else:
+            price = ITEMS[self.item_id]['price']
         price_text = font_mini.render(format_number(price), True, GOLD)
         price_rect = price_text.get_rect(center=(self.rect.centerx, self.rect.bottom - 8))
         surface.blit(price_text, price_rect)
         
     def draw_tooltip(self, surface, font_tiny, font_mini, mouse_pos):
         if not self.is_hovered:
+            return
+        
+        if self.item_id in CROSS_ITEMS:
+            cross_data = CROSS_ITEMS[self.item_id]
+            tooltip_width = 160
+            tooltip_height = 35
+            tooltip_x = mouse_pos[0] - tooltip_width // 2
+            tooltip_y = mouse_pos[1] + 15
+            
+            if tooltip_y + tooltip_height > WINDOW_HEIGHT - 50:
+                tooltip_y = mouse_pos[1] - tooltip_height - 15
+            
+            if tooltip_x < 5:
+                tooltip_x = 5
+            elif tooltip_x + tooltip_width > WINDOW_WIDTH - 5:
+                tooltip_x = WINDOW_WIDTH - tooltip_width - 5
+            
+            tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+            pygame.draw.rect(surface, (20, 20, 20, 230), tooltip_rect, border_radius=8)
+            pygame.draw.rect(surface, GOLD, tooltip_rect, 1, border_radius=8)
+            
+            name_text = font_tiny.render(cross_data['name'], True, cross_data['color'])
+            name_rect = name_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.centery))
+            surface.blit(name_text, name_rect)
             return
         
         item_data = ITEMS[self.item_id]
@@ -814,10 +1167,12 @@ class ShopItem:
             bonus_text = f"x{bonus} скорость пассива"
         elif item_type == 'act':
             bonus_text = f"x{bonus} активный доход"
+        elif item_type == 'rob':
+            bonus_text = f"x{bonus} шанс кейсов"
         else:
             bonus_text = f"+{bonus}"
         
-        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else (BLUE if item_type == 'roll' else PURPLE))
+        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else (BLUE if item_type == 'roll' else (PURPLE if item_type == 'act' else ORANGE)))
         bonus_text_surf = font_mini.render(bonus_text, True, bonus_color)
         bonus_rect = bonus_text_surf.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 32))
         surface.blit(bonus_text_surf, bonus_rect)
@@ -932,6 +1287,40 @@ class TabButton:
                 return 'click'
         return None
 
+class ShopTabButton:
+    def __init__(self, x, y, width, height, text, tab_id):
+        self.rect = pygame.Rect(x, y, width, height)
+        self.text = text
+        self.tab_id = tab_id
+        self.is_hovered = False
+        self.is_active = False
+        
+    def draw(self, surface, font):
+        if self.is_active:
+            pygame.draw.rect(surface, GOLD, self.rect, border_radius=6)
+            pygame.draw.rect(surface, DARK_GOLD, self.rect, 2, border_radius=6)
+            text_color = BLACK
+        else:
+            if self.is_hovered:
+                pygame.draw.rect(surface, (80, 80, 80), self.rect, border_radius=6)
+            else:
+                pygame.draw.rect(surface, (30, 30, 30), self.rect, border_radius=6)
+            pygame.draw.rect(surface, GRAY, self.rect, 1, border_radius=6)
+            text_color = WHITE
+        
+        text_surface = font.render(self.text, True, text_color)
+        text_rect = text_surface.get_rect(center=self.rect.center)
+        surface.blit(text_surface, text_rect)
+        
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.is_hovered = self.rect.collidepoint(event.pos)
+            return False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.is_hovered and event.button == 1:
+                return 'click'
+        return None
+
 class InventoryUpgradeButton:
     def __init__(self, x, y, size):
         self.rect = pygame.Rect(x, y, size, size)
@@ -997,6 +1386,7 @@ class ClickerGame:
         self.floating_texts = []
         self.passive_timer = 0
         self.current_tab = 'main'
+        self.shop_subtab = 'drag'
         self.inventory_slots = []
         self.craft_slots = []
         self.dragging_item = None
@@ -1007,6 +1397,7 @@ class ClickerGame:
         self.passive_speed_multiplier = 1.0
         self.hovered_item_info = None
         self.active_click_multiplier = 1.0
+        self.case_chance_multiplier = 1.0
         
         if self.inventory_level is None or self.inventory_level not in INVENTORY_LEVELS:
             self.inventory_level = None
@@ -1042,10 +1433,23 @@ class ClickerGame:
                 item_counts[item_id] = 0
             item_counts[item_id] += 1
         
-        sorted_items = get_rarity_order()
+        def get_tier(item_id):
+            if item_id in ITEMS:
+                return ITEMS[item_id].get('tier', 'wooden')
+            elif item_id in CASES:
+                tier = item_id.replace('_case', '')
+                return tier
+            elif item_id in CROSS_ITEMS:
+                return CROSS_ITEMS[item_id]['tier']
+            return 'wooden'
+        
+        def get_tier_order(tier):
+            return TIER_ORDER.index(tier) if tier in TIER_ORDER else len(TIER_ORDER)
+        
+        sorted_ids = sorted(item_counts.keys(), key=lambda x: (get_tier_order(get_tier(x)), -(CROSS_ITEMS[x]['price'] if x in CROSS_ITEMS else (ITEMS[x]['price'] if x in ITEMS else 0))))
         
         new_inventory = []
-        for item_id in sorted_items:
+        for item_id in sorted_ids:
             if item_id in item_counts:
                 new_inventory.extend([item_id] * item_counts[item_id])
         
@@ -1053,7 +1457,8 @@ class ClickerGame:
         self.data_changed = True
         
     def load_textures(self):
-        for item_id in ITEMS.keys():
+        all_items = list(ITEMS.keys()) + list(CASES.keys()) + list(CROSS_ITEMS.keys())
+        for item_id in all_items:
             path = os.path.join(TEXTURES_DIR, f"{item_id}.png")
             if os.path.exists(path):
                 try:
@@ -1139,22 +1544,43 @@ class ClickerGame:
         )
         
     def create_shop(self):
-        shop_item_ids = []
-        for item_id, item_data in ITEMS.items():
-            if 'price' in item_data and item_data['price'] > 0:
-                shop_item_ids.append(item_id)
+        self.shop_items = []
+        self.shop_sub_buttons = []
         
-        shop_item_ids.sort(key=lambda x: ITEMS[x]['price'], reverse=True)
+        tab_width = 65
+        tab_height = 25
+        total_width = len(SHOP_TABS) * tab_width + (len(SHOP_TABS) - 1) * 5
+        start_x = (WINDOW_WIDTH - total_width) // 2
+        start_y = 110 + OFFSET_Y
+        
+        for i, tab_id in enumerate(SHOP_TABS):
+            x = start_x + i * (tab_width + 5)
+            btn = ShopTabButton(x, start_y, tab_width, tab_height, SHOP_TAB_NAMES[tab_id], tab_id)
+            if tab_id == self.shop_subtab:
+                btn.is_active = True
+            self.shop_sub_buttons.append(btn)
         
         item_size = 60
         spacing = 8
         cols = 7
         total_width = cols * item_size + (cols - 1) * spacing
         start_x = (WINDOW_WIDTH - total_width) // 2
-        start_y = 130 + OFFSET_Y
+        start_y = start_y + tab_height + 15
         
-        self.shop_items = []
-        for i, item_id in enumerate(shop_item_ids):
+        item_ids = []
+        
+        if self.shop_subtab == 'cross':
+            for cross_id, cross_data in CROSS_ITEMS.items():
+                item_ids.append(cross_id)
+            item_ids.sort(key=lambda x: CROSS_ITEMS[x]['price'])
+        else:
+            for item_id, item_data in ITEMS.items():
+                if 'price' in item_data and item_data['price'] > 0:
+                    if item_data['type'] == self.shop_subtab:
+                        item_ids.append(item_id)
+            item_ids.sort(key=lambda x: ITEMS[x]['price'])
+        
+        for i, item_id in enumerate(item_ids):
             row = i // cols
             col = i % cols
             x = start_x + col * (item_size + spacing)
@@ -1291,40 +1717,68 @@ class ClickerGame:
             return False
     
     def buy_item(self, item_id):
-        if item_id not in ITEMS:
-            return False
-        
-        price = ITEMS[item_id]['price']
-        if self.money >= price:
-            self.money -= price
-            if not self.add_item_to_inventory(item_id):
-                self.money += price
+        if item_id in CROSS_ITEMS:
+            price = CROSS_ITEMS[item_id]['price']
+            if self.money >= price:
+                self.money -= price
+                if not self.add_item_to_inventory(item_id):
+                    self.money += price
+                    self.add_floating_text(
+                        WINDOW_WIDTH//2,
+                        300 + OFFSET_Y,
+                        "Инвентарь полон!",
+                        RED
+                    )
+                    return False
+                self.data_changed = True
+                self.update_inventory_slots()
                 self.add_floating_text(
                     WINDOW_WIDTH//2,
                     300 + OFFSET_Y,
-                    "Инвентарь полон!",
+                    f"Куплен {CROSS_ITEMS[item_id]['name']}!",
+                    GREEN
+                )
+                return True
+            else:
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    f"Недостаточно монет! Нужно: {format_number(price)}",
                     RED
                 )
                 return False
-            self.data_changed = True
-            self.apply_item_bonuses()
-            self.update_inventory_slots()
-            
-            self.add_floating_text(
-                WINDOW_WIDTH//2,
-                300 + OFFSET_Y,
-                f"Куплен {ITEMS[item_id]['name']}!",
-                GREEN
-            )
-            return True
-        else:
-            self.add_floating_text(
-                WINDOW_WIDTH//2,
-                300 + OFFSET_Y,
-                f"Недостаточно монет! Нужно: {format_number(price)}",
-                RED
-            )
-            return False
+        elif item_id in ITEMS:
+            price = ITEMS[item_id]['price']
+            if self.money >= price:
+                self.money -= price
+                if not self.add_item_to_inventory(item_id):
+                    self.money += price
+                    self.add_floating_text(
+                        WINDOW_WIDTH//2,
+                        300 + OFFSET_Y,
+                        "Инвентарь полон!",
+                        RED
+                    )
+                    return False
+                self.data_changed = True
+                self.apply_item_bonuses()
+                self.update_inventory_slots()
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    f"Куплен {ITEMS[item_id]['name']}!",
+                    GREEN
+                )
+                return True
+            else:
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    f"Недостаточно монет! Нужно: {format_number(price)}",
+                    RED
+                )
+                return False
+        return False
     
     def add_item_to_inventory(self, item_id):
         if len(self.inventory) < len(self.inv_grid_slots):
@@ -1338,6 +1792,14 @@ class ClickerGame:
         
         for slot in self.inventory_slots:
             if slot.item is not None:
+                if slot.item in CROSS_ITEMS:
+                    self.add_floating_text(
+                        WINDOW_WIDTH//2,
+                        570 + OFFSET_Y,
+                        "Кресты нельзя совмещать!",
+                        RED
+                    )
+                    return False
                 if slot.item not in items_in_slots:
                     items_in_slots[slot.item] = 0
                 items_in_slots[slot.item] += 1
@@ -1354,16 +1816,29 @@ class ClickerGame:
         
         crafted = False
         for item_id, count in items_in_slots.items():
-            if item_id not in ITEMS:
+            if item_id in CROSS_ITEMS:
                 continue
                 
-            item_type = ITEMS[item_id]['type']
-            if item_type == 'roll' or item_type == 'act':
-                required_count = 3
+            if item_id in CASES:
+                required_count = 5
+            elif item_id in ITEMS:
+                item_type = ITEMS[item_id]['type']
+                if item_type == 'roll' or item_type == 'act' or item_type == 'rob':
+                    required_count = 3
+                else:
+                    required_count = 5 if item_type == 'drag' else 3
             else:
-                required_count = 5 if item_type == 'drag' else 3
+                continue
             
-            if count >= required_count and ITEMS[item_id]['next'] is not None:
+            next_item = None
+            if item_id in CASES:
+                case_index = CASE_ORDER.index(item_id)
+                if case_index < len(CASE_ORDER) - 1:
+                    next_item = CASE_ORDER[case_index + 1]
+            elif item_id in ITEMS and ITEMS[item_id]['next'] is not None:
+                next_item = ITEMS[item_id]['next']
+            
+            if count >= required_count and next_item is not None:
                 removed = 0
                 for slot in self.inventory_slots:
                     if slot.item == item_id:
@@ -1373,7 +1848,6 @@ class ClickerGame:
                         if removed >= required_count:
                             break
                 
-                next_item = ITEMS[item_id]['next']
                 if len(self.inventory) >= len(self.inv_grid_slots):
                     self.add_floating_text(
                         WINDOW_WIDTH//2,
@@ -1389,10 +1863,15 @@ class ClickerGame:
                 self.update_inventory_slots()
                 self.apply_item_bonuses()
                 
+                if next_item in ITEMS:
+                    name = ITEMS[next_item]['name']
+                else:
+                    name = CASE_NAMES.get(next_item, next_item.replace('_', ' ').title())
+                
                 self.add_floating_text(
                     WINDOW_WIDTH//2,
                     570 + OFFSET_Y,
-                    f"Совмещено! +{ITEMS[next_item]['name']}",
+                    f"Совмещено! +{name}",
                     GREEN
                 )
                 crafted = True
@@ -1409,11 +1888,25 @@ class ClickerGame:
                 )
             else:
                 for item_id, count in items_in_slots.items():
-                    if count >= 3 and ITEMS[item_id]['next'] is None:
+                    if item_id in CROSS_ITEMS:
+                        continue
+                    next_item = None
+                    if item_id in CASES:
+                        case_index = CASE_ORDER.index(item_id)
+                        if case_index < len(CASE_ORDER) - 1:
+                            next_item = CASE_ORDER[case_index + 1]
+                    elif item_id in ITEMS:
+                        next_item = ITEMS[item_id].get('next')
+                    
+                    if count >= 3 and next_item is None:
+                        if item_id in ITEMS:
+                            name = ITEMS[item_id]['name']
+                        else:
+                            name = CASE_NAMES.get(item_id, item_id.replace('_', ' ').title())
                         self.add_floating_text(
                             WINDOW_WIDTH//2,
                             570 + OFFSET_Y,
-                            f"{ITEMS[item_id]['name']} нельзя улучшить!",
+                            f"{name} нельзя улучшить!",
                             RED
                         )
                         break
@@ -1425,8 +1918,10 @@ class ClickerGame:
         total_passive = 0
         roll_multiplier = 1.0
         active_multiplier = 1.0
+        case_multiplier = 1.0
         
         act_bonuses = []
+        rob_bonuses = []
         
         for item_id in self.inventory:
             if item_id in ITEMS:
@@ -1438,16 +1933,24 @@ class ClickerGame:
                     roll_multiplier *= ITEMS[item_id]['bonus']
                 elif ITEMS[item_id]['type'] == 'act':
                     act_bonuses.append(ITEMS[item_id]['bonus'])
+                elif ITEMS[item_id]['type'] == 'rob':
+                    rob_bonuses.append(ITEMS[item_id]['bonus'])
         
         act_bonuses.sort(reverse=True)
         top_acts = act_bonuses[:5]
         for bonus in top_acts:
             active_multiplier += bonus
         
+        rob_bonuses.sort(reverse=True)
+        top_robs = rob_bonuses[:5]
+        for bonus in top_robs:
+            case_multiplier += bonus
+        
         self.item_bonus = total_bonus
         self.item_passive_bonus = total_passive
         self.passive_speed_multiplier = roll_multiplier
         self.active_click_multiplier = active_multiplier
+        self.case_chance_multiplier = case_multiplier
         self.data_changed = True
         
     def find_nearest_empty_slot(self, mouse_pos):
@@ -1554,18 +2057,30 @@ class ClickerGame:
         self.data_changed = True
         
         mouse_x, mouse_y = pygame.mouse.get_pos()
-        self.add_floating_text(mouse_x, mouse_y - 30, f"+{earnings}")
+        self.add_floating_text(mouse_x, mouse_y - 30, f"+{format_number(earnings)}")
         
         self.try_drop_item()
         
     def try_drop_item(self):
+        case_multiplier = getattr(self, 'case_chance_multiplier', 1.0)
         roll = random.random() * 100
         
-        for item_id in ITEM_ORDER:
-            chance = ITEMS[item_id]['chance'] * 100
+        has_crosses = {}
+        for item_id in self.inventory:
+            if item_id in CROSS_ITEMS:
+                tier = CROSS_ITEMS[item_id]['tier']
+                has_crosses[tier] = True
+        
+        for case_id in reversed(CASE_ORDER):
+            case_tier = case_id.replace('_case', '')
+            
+            if has_crosses.get(case_tier, False):
+                continue
+                
+            chance = CASES[case_id] * 100 * case_multiplier
             if roll < chance:
                 if len(self.inventory) >= len(self.inv_grid_slots):
-                    price = ITEMS[item_id]['price'] // 2
+                    price = 100
                     self.money += price
                     self.data_changed = True
                     self.add_floating_text(
@@ -1576,17 +2091,89 @@ class ClickerGame:
                     )
                     return
                 
-                self.inventory.append(item_id)
+                self.inventory.append(case_id)
                 self.data_changed = True
                 self.apply_item_bonuses()
                 self.update_inventory_slots()
                 self.add_floating_text(
                     WINDOW_WIDTH//2,
                     300 + OFFSET_Y,
-                    f"Выпал {ITEMS[item_id]['name']}!",
+                    f"Выпал {CASE_NAMES[case_id]}!",
+                    CASE_CONTENTS[case_id]['color']
+                )
+                return
+        
+    def open_case(self, case_id):
+        if case_id not in CASE_CONTENTS:
+            return
+        
+        if len(self.inventory) >= len(self.inv_grid_slots):
+            self.add_floating_text(
+                WINDOW_WIDTH//2,
+                300 + OFFSET_Y,
+                "Инвентарь полон!",
+                RED
+            )
+            return
+        
+        case_index = -1
+        for i, item in enumerate(self.inventory):
+            if item == case_id:
+                case_index = i
+                break
+        
+        if case_index == -1:
+            return
+        
+        contents = CASE_CONTENTS[case_id]
+        roll = random.random()
+        
+        if roll < contents['apple_chance']:
+            item_id = 'apple'
+        else:
+            item_id = random.choice(contents['items'])
+        
+        del self.inventory[case_index]
+        
+        if len(self.inventory) < len(self.inv_grid_slots):
+            self.inventory.append(item_id)
+            self.data_changed = True
+            self.apply_item_bonuses()
+            self.update_inventory_slots()
+            
+            if item_id in ITEMS:
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    f"Из кейса выпал {ITEMS[item_id]['name']}!",
                     ITEMS[item_id]['color']
                 )
-                break
+            else:
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    f"Из кейса выпал {item_id.replace('_', ' ').title()}!",
+                    ORANGE
+                )
+        else:
+            if item_id in ITEMS:
+                price = ITEMS[item_id]['price'] // 2
+                self.money += price
+                self.data_changed = True
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    f"Инвентарь полон! Продано за {format_number(price)}",
+                    GOLD
+                )
+            else:
+                self.add_floating_text(
+                    WINDOW_WIDTH//2,
+                    300 + OFFSET_Y,
+                    "Инвентарь полон!",
+                    RED
+                )
+            self.update_inventory_slots()
         
     def handle_upgrade(self):
         next_level = self.multiplier + 1
@@ -1599,7 +2186,7 @@ class ClickerGame:
             self.add_floating_text(
                 WINDOW_WIDTH//2,
                 150 + OFFSET_Y,
-                f"Улучшено! +{1 + self.multiplier + getattr(self, 'item_bonus', 0)}",
+                f"Улучшено! +{format_number(1 + self.multiplier + getattr(self, 'item_bonus', 0))}",
                 GREEN
             )
             return True
@@ -1651,7 +2238,7 @@ class ClickerGame:
                     self.add_floating_text(
                         WINDOW_WIDTH//2,
                         200 + OFFSET_Y,
-                        f"+{total_income}",
+                        f"+{format_number(total_income)}",
                         GOLD
                     )
             
@@ -1680,7 +2267,7 @@ class ClickerGame:
         label_rect = label.get_rect(center=(WINDOW_WIDTH//2, 45 + OFFSET_Y))
         self.screen.blit(label, label_rect)
         
-        click_info = self.font_small.render(f"Кликов: {self.click_count}", True, (200, 200, 200))
+        click_info = self.font_small.render(f"Кликов: {format_number(self.click_count)}", True, (200, 200, 200))
         click_rect = click_info.get_rect(center=(WINDOW_WIDTH//2, 115 + OFFSET_Y))
         self.screen.blit(click_info, click_rect)
         
@@ -1689,7 +2276,7 @@ class ClickerGame:
         speed_mult = getattr(self, 'passive_speed_multiplier', 1.0)
         active_mult = getattr(self, 'active_click_multiplier', 1.0)
         earnings = int((1 + total_bonus) * active_mult)
-        earnings_text = self.font_small.render(f"+{earnings} за клик (x{active_mult:.1f}) / +{total_passive} в сек (x{speed_mult:.1f})", True, GOLD)
+        earnings_text = self.font_small.render(f"+{earnings} за клик (x{active_mult:.1f}) / +{format_number(total_passive)} в сек (x{speed_mult:.1f})", True, GOLD)
         earnings_rect = earnings_text.get_rect(center=(WINDOW_WIDTH//2, 145 + OFFSET_Y))
         self.screen.blit(earnings_text, earnings_rect)
         
@@ -1726,9 +2313,8 @@ class ClickerGame:
         title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
         self.screen.blit(title, title_rect)
         
-        subtitle = self.font_tiny.render("Купите предметы за монеты", True, LIGHT_GRAY)
-        subtitle_rect = subtitle.get_rect(center=(WINDOW_WIDTH//2, 95 + OFFSET_Y))
-        self.screen.blit(subtitle, subtitle_rect)
+        for btn in self.shop_sub_buttons:
+            btn.draw(self.screen, self.font_mini)
         
         mouse_pos = pygame.mouse.get_pos()
         for shop_item in self.shop_items:
@@ -1737,6 +2323,10 @@ class ClickerGame:
         
         for shop_item in self.shop_items:
             shop_item.draw_tooltip(self.screen, self.font_tiny, self.font_mini, mouse_pos)
+        
+        balance_text = self.font_tiny.render(f"Баланс: {format_number(self.money)}", True, GOLD)
+        balance_rect = balance_text.get_rect(bottomright=(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10))
+        self.screen.blit(balance_text, balance_rect)
         
     def draw_item_bonuses(self):
         if not self.inventory:
@@ -1764,11 +2354,27 @@ class ClickerGame:
                 self.screen.blit(more_text, more_rect)
                 break
                 
-            if item_id in ITEMS:
+            if item_id in CROSS_ITEMS:
+                cross = CROSS_ITEMS[item_id]
+                bonus_text = f"{cross['name'][:8]}: {count}шт"
+                color = cross['color']
+                text = self.font_mini.render(bonus_text, True, color)
+                text_rect = text.get_rect(topright=(x, y))
+                self.screen.blit(text, text_rect)
+                y += 16
+                items_shown += 1
+            elif item_id in ITEMS:
                 item = ITEMS[item_id]
                 bonus_text = f"{item['name'][:8]}: {count}шт"
                 color = item['color']
                 text = self.font_mini.render(bonus_text, True, color)
+                text_rect = text.get_rect(topright=(x, y))
+                self.screen.blit(text, text_rect)
+                y += 16
+                items_shown += 1
+            elif item_id in CASES:
+                bonus_text = f"{CASE_NAMES[item_id][:8]}: {count}шт"
+                text = self.font_mini.render(bonus_text, True, CASE_CONTENTS[item_id]['color'])
                 text_rect = text.get_rect(topright=(x, y))
                 self.screen.blit(text, text_rect)
                 y += 16
@@ -1779,7 +2385,55 @@ class ClickerGame:
             return
         
         item_id, slot_rect = self.hovered_item_info
-        if item_id not in ITEMS:
+        
+        if item_id in CROSS_ITEMS:
+            cross_data = CROSS_ITEMS[item_id]
+            tooltip_width = 160
+            tooltip_height = 35
+            tooltip_x = slot_rect.centerx - tooltip_width // 2
+            tooltip_y = slot_rect.bottom + 5
+            
+            if tooltip_y + tooltip_height > WINDOW_HEIGHT - 50:
+                tooltip_y = slot_rect.top - tooltip_height - 5
+            
+            if tooltip_x < 5:
+                tooltip_x = 5
+            elif tooltip_x + tooltip_width > WINDOW_WIDTH - 5:
+                tooltip_x = WINDOW_WIDTH - tooltip_width - 5
+            
+            tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+            pygame.draw.rect(self.screen, (20, 20, 20, 230), tooltip_rect, border_radius=8)
+            pygame.draw.rect(self.screen, GOLD, tooltip_rect, 1, border_radius=8)
+            
+            name_text = self.font_mini.render(cross_data['name'], True, cross_data['color'])
+            name_rect = name_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.centery))
+            self.screen.blit(name_text, name_rect)
+            return
+        
+        if item_id not in ITEMS and item_id not in CASES:
+            return
+        
+        if item_id in CASES:
+            tooltip_width = 160
+            tooltip_height = 35
+            tooltip_x = slot_rect.centerx - tooltip_width // 2
+            tooltip_y = slot_rect.bottom + 5
+            
+            if tooltip_y + tooltip_height > WINDOW_HEIGHT - 50:
+                tooltip_y = slot_rect.top - tooltip_height - 5
+            
+            if tooltip_x < 5:
+                tooltip_x = 5
+            elif tooltip_x + tooltip_width > WINDOW_WIDTH - 5:
+                tooltip_x = WINDOW_WIDTH - tooltip_width - 5
+            
+            tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+            pygame.draw.rect(self.screen, (20, 20, 20, 230), tooltip_rect, border_radius=8)
+            pygame.draw.rect(self.screen, GOLD, tooltip_rect, 1, border_radius=8)
+            
+            use_text = self.font_mini.render("ПКМ для открытия", True, GOLD)
+            use_rect = use_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.centery))
+            self.screen.blit(use_text, use_rect)
             return
         
         item_data = ITEMS[item_id]
@@ -1815,10 +2469,12 @@ class ClickerGame:
             bonus_text = f"x{bonus} скорость пассива"
         elif item_type == 'act':
             bonus_text = f"x{bonus} активный доход"
+        elif item_type == 'rob':
+            bonus_text = f"x{bonus} шанс кейсов"
         else:
             bonus_text = f"+{bonus}"
         
-        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else (BLUE if item_type == 'roll' else PURPLE))
+        bonus_color = GOLD if item_type == 'drag' else (GREEN if item_type == 'apple' else (BLUE if item_type == 'roll' else (PURPLE if item_type == 'act' else ORANGE)))
         bonus_text_surf = self.font_mini.render(bonus_text, True, bonus_color)
         bonus_rect = bonus_text_surf.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 32))
         self.screen.blit(bonus_text_surf, bonus_rect)
@@ -1837,7 +2493,7 @@ class ClickerGame:
         for slot in self.inv_grid_slots:
             slot.draw(self.screen, self.font_mini)
         
-        craft_label = self.font_tiny.render("КРАФТ (3 одинаковых)", True, LIGHT_GRAY)
+        craft_label = self.font_tiny.render("КРАФТ (3 одинаковых, для кейсов 5)", True, LIGHT_GRAY)
         craft_label_rect = craft_label.get_rect(center=(WINDOW_WIDTH//2, 505 + OFFSET_Y))
         self.screen.blit(craft_label, craft_label_rect)
         
@@ -1906,10 +2562,17 @@ class ClickerGame:
             return False
         
         item_id = slot.item
-        if item_id not in ITEMS:
+        price = 0
+        if item_id in CROSS_ITEMS:
+            price = CROSS_ITEMS[item_id]['price'] // 2
+        elif item_id in ITEMS:
+            price = ITEMS[item_id]['price'] // 2
+        elif item_id in CASES:
+            price = 100
+        
+        if price == 0:
             return False
         
-        price = ITEMS[item_id]['price'] // 2
         self.money += price
         slot.item = None
         slot.texture = None
@@ -2016,10 +2679,18 @@ class ClickerGame:
                                         slot.texture = None
                                         break
                         elif event.button == 3:
+                            clicked_slot = None
                             for slot in self.inv_grid_slots:
                                 if slot.is_hovered and slot.item is not None:
-                                    self.sell_item(slot)
+                                    clicked_slot = slot
                                     break
+                            
+                            if clicked_slot is not None:
+                                if clicked_slot.item in CASES:
+                                    case_id = clicked_slot.item
+                                    self.open_case(case_id)
+                                else:
+                                    self.sell_item(clicked_slot)
                     
                     elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
                         if self.dragging_item is not None:
@@ -2030,6 +2701,14 @@ class ClickerGame:
                             slot.handle_event(event)
                 
                 elif self.current_tab == 'shop':
+                    for btn in self.shop_sub_buttons:
+                        action = btn.handle_event(event)
+                        if action == 'click':
+                            self.shop_subtab = btn.tab_id
+                            for b in self.shop_sub_buttons:
+                                b.is_active = (b.tab_id == self.shop_subtab)
+                            self.create_shop()
+                    
                     for shop_item in self.shop_items:
                         action = shop_item.handle_event(event)
                         if action == 'click':
