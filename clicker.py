@@ -7,10 +7,16 @@ import random
 
 pygame.init()
 
-WINDOW_WIDTH = 500
-WINDOW_HEIGHT = 700
+# Базовые размеры (для масштабирования)
+BASE_WIDTH = 500
+BASE_HEIGHT = 700
+
+# Текущие размеры окна
+WINDOW_WIDTH = BASE_WIDTH
+WINDOW_HEIGHT = BASE_HEIGHT
 FPS = 60
 
+# Цвета
 GOLD = (255, 215, 0)
 DARK_GOLD = (184, 134, 11)
 LIGHT_GOLD = (255, 240, 150)
@@ -31,6 +37,10 @@ LIGHT_SAPPHIRE = (100, 180, 255)
 ORANGE = (255, 165, 0)
 CYAN = (0, 255, 255)
 PINK = (255, 105, 180)
+TITANIUM = (150, 150, 200)
+LIGHT_TITANIUM = (200, 200, 255)
+COBALT = (0, 200, 180)
+LIGHT_COBALT = (100, 230, 210)
 
 DATA_FILE = 'data.json'
 TEXTURES_DIR = './textures/'
@@ -42,15 +52,17 @@ CASES = {
     'wooden_case': 0.001,
     'stone_case': 0.0005,
     'copper_case': 0.0003,
-    'iron_case': 0.00005,
-    'golden_case': 0.00001,
-    'emerald_case': 0.0000025,
-    'diamond_case': 0.0000005,
-    'ruby_case': 0.0000001,
-    'netherite_case': 0.000000025,
-    'obsidian_case': 0.000000005,
-    'magic_case': 0.000000001,
-    'sapphire_case': 0.00000000025
+    'iron_case': 0.0001,
+    'golden_case': 0.00005,
+    'emerald_case': 0.000025,
+    'diamond_case': 0.00001,
+    'ruby_case': 0.000005,
+    'netherite_case': 0.0000025,
+    'obsidian_case': 0.0000005,
+    'magic_case': 0.0000001,
+    'sapphire_case': 0.00000005,
+    'titan_case': 0.000000025,
+    'cobalt_case': 0.0000000125
 }
 
 CASE_NAMES = {
@@ -65,7 +77,9 @@ CASE_NAMES = {
     'netherite_case': 'Незеритовый кейс',
     'obsidian_case': 'Обсидиановый кейс',
     'magic_case': 'Магический кейс',
-    'sapphire_case': 'Сапфировый кейс'
+    'sapphire_case': 'Сапфировый кейс',
+    'titan_case': 'Титановый кейс',
+    'cobalt_case': 'Кобальтовый кейс'
 }
 
 CASE_CONTENTS = {
@@ -140,14 +154,26 @@ CASE_CONTENTS = {
         'chance_per_item': 0.19,
         'apple_chance': 0.05,
         'color': LIGHT_SAPPHIRE
+    },
+    'titan_case': {
+        'items': ['titan_drag', 'titan_apple', 'titan_roll', 'titan_act', 'titan_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': TITANIUM
+    },
+    'cobalt_case': {
+        'items': ['cobalt_drag', 'cobalt_apple', 'cobalt_roll', 'cobalt_act', 'cobalt_rob'],
+        'chance_per_item': 0.19,
+        'apple_chance': 0.05,
+        'color': COBALT
     }
 }
 
 CASE_ORDER = ['wooden_case', 'stone_case', 'copper_case', 'iron_case', 'golden_case', 
               'emerald_case', 'diamond_case', 'ruby_case', 'netherite_case', 
-              'obsidian_case', 'magic_case', 'sapphire_case']
+              'obsidian_case', 'magic_case', 'sapphire_case', 'titan_case', 'cobalt_case']
 
-TIER_ORDER = ['sapphire', 'magic', 'obsidian', 'netherite', 'ruby', 'diamond', 
+TIER_ORDER = ['cobalt', 'titan', 'sapphire', 'magic', 'obsidian', 'netherite', 'ruby', 'diamond', 
               'emerald', 'golden', 'iron', 'copper', 'stone', 'wooden']
 
 CROSS_ITEMS = {
@@ -222,6 +248,18 @@ CROSS_ITEMS = {
         'price': 1600000000,
         'color': LIGHT_SAPPHIRE,
         'tier': 'sapphire'
+    },
+    'titan_cross': {
+        'name': 'Титановый крест',
+        'price': 4800000000,
+        'color': TITANIUM,
+        'tier': 'titan'
+    },
+    'cobalt_cross': {
+        'name': 'Кобальтовый крест',
+        'price': 14400000000,
+        'color': COBALT,
+        'tier': 'cobalt'
     }
 }
 
@@ -570,7 +608,7 @@ ITEMS = {
         'name': 'Сапфировый драг',
         'bonus': 50,
         'color': SAPPHIRE,
-        'next': None,
+        'next': 'titan_drag',
         'type': 'drag',
         'rarity': 12,
         'price': 20000000000,
@@ -580,7 +618,7 @@ ITEMS = {
         'name': 'Сапфировое яблоко',
         'bonus': 50,
         'color': LIGHT_SAPPHIRE,
-        'next': None,
+        'next': 'titan_apple',
         'type': 'apple',
         'rarity': 13,
         'price': 600000000,
@@ -590,7 +628,7 @@ ITEMS = {
         'name': 'Сапфировый ролл',
         'bonus': 20.0,
         'color': LIGHT_SAPPHIRE,
-        'next': None,
+        'next': 'titan_roll',
         'type': 'roll',
         'rarity': 12,
         'price': 300000000,
@@ -710,7 +748,7 @@ ITEMS = {
         'name': 'Сапфировый акт',
         'bonus': 10.0,
         'color': LIGHT_SAPPHIRE,
-        'next': None,
+        'next': 'titan_act',
         'type': 'act',
         'rarity': 12,
         'price': 4500000000,
@@ -823,18 +861,118 @@ ITEMS = {
         'next': 'sapphire_rob',
         'type': 'rob',
         'rarity': 11,
-        'price': 1750000000,
+        'price': 1600000000,
         'tier': 'magic'
     },
     'sapphire_rob': {
         'name': 'Сапфировая роба',
         'bonus': 40.0,
         'color': LIGHT_SAPPHIRE,
-        'next': None,
+        'next': 'titan_rob',
         'type': 'rob',
         'rarity': 12,
-        'price': 5000000000,
+        'price': 4800000000,
         'tier': 'sapphire'
+    },
+    'titan_drag': {
+        'name': 'Титановый драг',
+        'bonus': 75,
+        'color': TITANIUM,
+        'next': 'cobalt_drag',
+        'type': 'drag',
+        'rarity': 13,
+        'price': 100000000000,
+        'tier': 'titan'
+    },
+    'titan_apple': {
+        'name': 'Титановое яблоко',
+        'bonus': 75,
+        'color': LIGHT_TITANIUM,
+        'next': 'cobalt_apple',
+        'type': 'apple',
+        'rarity': 14,
+        'price': 1800000000,
+        'tier': 'titan'
+    },
+    'titan_roll': {
+        'name': 'Титановый ролл',
+        'bonus': 30.0,
+        'color': LIGHT_TITANIUM,
+        'next': 'cobalt_roll',
+        'type': 'roll',
+        'rarity': 13,
+        'price': 900000000,
+        'tier': 'titan'
+    },
+    'titan_act': {
+        'name': 'Титановый акт',
+        'bonus': 15.0,
+        'color': LIGHT_TITANIUM,
+        'next': 'cobalt_act',
+        'type': 'act',
+        'rarity': 13,
+        'price': 13000000000,
+        'tier': 'titan'
+    },
+    'titan_rob': {
+        'name': 'Титановая роба',
+        'bonus': 50.0,
+        'color': LIGHT_TITANIUM,
+        'next': 'cobalt_rob',
+        'type': 'rob',
+        'rarity': 13,
+        'price': 14000000000,
+        'tier': 'titan'
+    },
+    'cobalt_drag': {
+        'name': 'Кобальтовый драг',
+        'bonus': 100,
+        'color': COBALT,
+        'next': None,
+        'type': 'drag',
+        'rarity': 14,
+        'price': 500000000000,
+        'tier': 'cobalt'
+    },
+    'cobalt_apple': {
+        'name': 'Кобальтовое яблоко',
+        'bonus': 100,
+        'color': LIGHT_COBALT,
+        'next': None,
+        'type': 'apple',
+        'rarity': 15,
+        'price': 5400000000,
+        'tier': 'cobalt'
+    },
+    'cobalt_roll': {
+        'name': 'Кобальтовый ролл',
+        'bonus': 40.0,
+        'color': LIGHT_COBALT,
+        'next': None,
+        'type': 'roll',
+        'rarity': 14,
+        'price': 2700000000,
+        'tier': 'cobalt'
+    },
+    'cobalt_act': {
+        'name': 'Кобальтовый акт',
+        'bonus': 20.0,
+        'color': LIGHT_COBALT,
+        'next': None,
+        'type': 'act',
+        'rarity': 14,
+        'price': 39000000000,
+        'tier': 'cobalt'
+    },
+    'cobalt_rob': {
+        'name': 'Кобальтовая роба',
+        'bonus': 75.0,
+        'color': LIGHT_COBALT,
+        'next': None,
+        'type': 'rob',
+        'rarity': 14,
+        'price': 42000000000,
+        'tier': 'cobalt'
     }
 }
 
@@ -1041,6 +1179,8 @@ def format_number(num):
 
 class Button:
     def __init__(self, x, y, width, height, text, color, hover_color, text_color=WHITE, border_color=GOLD):
+        global WINDOW_WIDTH, WINDOW_HEIGHT
+        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
         self.color = color
@@ -1361,7 +1501,7 @@ class InventoryUpgradeButton:
 
 class ClickerGame:
     def __init__(self):
-        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
+        self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
         pygame.display.set_caption("Вечный Кликер")
         self.clock = pygame.time.Clock()
         self.font_large = pygame.font.Font(None, 52)
@@ -1399,6 +1539,9 @@ class ClickerGame:
         self.active_click_multiplier = 1.0
         self.case_chance_multiplier = 1.0
         
+        self.fullscreen = False
+        self.scale_factor = 1.0
+        
         if self.inventory_level is None or self.inventory_level not in INVENTORY_LEVELS:
             self.inventory_level = None
         
@@ -1408,6 +1551,29 @@ class ClickerGame:
         
         self.data_changed = False
         self.apply_item_bonuses()
+    
+    def toggle_fullscreen(self):  
+        global WINDOW_WIDTH, WINDOW_HEIGHT
+        self.fullscreen = not self.fullscreen
+        if self.fullscreen:
+            self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
+            WINDOW_WIDTH = self.screen.get_width()
+            WINDOW_HEIGHT = self.screen.get_height()
+        else:
+            WINDOW_WIDTH = BASE_WIDTH
+            WINDOW_HEIGHT = BASE_HEIGHT
+            self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
+        self.calculate_scale()
+        
+    def calculate_scale(self):
+        current_w, current_h = self.screen.get_size()
+        self.scale_factor = min(current_w / BASE_WIDTH, current_h / BASE_HEIGHT)
+        
+    def scale_pos(self, x, y):
+        return int(x * self.scale_factor), int(y * self.scale_factor)
+        
+    def scale_size(self, size):
+        return int(size * self.scale_factor)
         
     def get_inventory_size(self):
         if self.inventory_level and self.inventory_level in INVENTORY_LEVELS:
@@ -1446,7 +1612,14 @@ class ClickerGame:
         def get_tier_order(tier):
             return TIER_ORDER.index(tier) if tier in TIER_ORDER else len(TIER_ORDER)
         
-        sorted_ids = sorted(item_counts.keys(), key=lambda x: (get_tier_order(get_tier(x)), -(CROSS_ITEMS[x]['price'] if x in CROSS_ITEMS else (ITEMS[x]['price'] if x in ITEMS else 0))))
+        def get_price(item_id):
+            if item_id in CROSS_ITEMS:
+                return CROSS_ITEMS[item_id]['price']
+            elif item_id in ITEMS:
+                return ITEMS[item_id]['price']
+            return 0
+        
+        sorted_ids = sorted(item_counts.keys(), key=lambda x: (get_tier_order(get_tier(x)), -get_price(x)))
         
         new_inventory = []
         for item_id in sorted_ids:
@@ -2276,7 +2449,7 @@ class ClickerGame:
         speed_mult = getattr(self, 'passive_speed_multiplier', 1.0)
         active_mult = getattr(self, 'active_click_multiplier', 1.0)
         earnings = int((1 + total_bonus) * active_mult)
-        earnings_text = self.font_small.render(f"+{earnings} за клик (x{active_mult:.1f}) / +{format_number(total_passive)} в сек (x{speed_mult:.1f})", True, GOLD)
+        earnings_text = self.font_small.render(f"+{format_number(earnings)} за клик (x{active_mult:.1f}) / +{format_number(total_passive)} в сек (x{speed_mult:.1f})", True, GOLD)
         earnings_rect = earnings_text.get_rect(center=(WINDOW_WIDTH//2, 145 + OFFSET_Y))
         self.screen.blit(earnings_text, earnings_rect)
         
@@ -2325,7 +2498,7 @@ class ClickerGame:
             shop_item.draw_tooltip(self.screen, self.font_tiny, self.font_mini, mouse_pos)
         
         balance_text = self.font_tiny.render(f"Баланс: {format_number(self.money)}", True, GOLD)
-        balance_rect = balance_text.get_rect(bottomright=(WINDOW_WIDTH - 10, WINDOW_HEIGHT - 10))
+        balance_rect = balance_text.get_rect(bottomright=(WINDOW_WIDTH / 2 + 50, 150))
         self.screen.blit(balance_text, balance_rect)
         
     def draw_item_bonuses(self):
@@ -2591,6 +2764,7 @@ class ClickerGame:
         return True
 
     def run(self):
+        global WINDOW_WIDTH, WINDOW_HEIGHT
         running = True
         while running:
             mouse_pos = pygame.mouse.get_pos()
@@ -2600,6 +2774,18 @@ class ClickerGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+                
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_F11:
+                        self.toggle_fullscreen()
+                
+                if event.type == pygame.VIDEORESIZE:
+                    WINDOW_WIDTH = event.w
+                    WINDOW_HEIGHT = event.h
+                    self.screen = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), pygame.RESIZABLE)
+                    self.create_buttons()
+                    self.create_inventory_slots()
+                    self.create_shop()
                 
                 action = self.main_tab_button.handle_event(event)
                 if action == 'click':
