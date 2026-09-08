@@ -7,16 +7,13 @@ import random
 
 pygame.init()
 
-# Базовые размеры (для масштабирования)
 BASE_WIDTH = 500
 BASE_HEIGHT = 700
 
-# Текущие размеры окна
 WINDOW_WIDTH = BASE_WIDTH
 WINDOW_HEIGHT = BASE_HEIGHT
 FPS = 60
 
-# Цвета
 GOLD = (255, 215, 0)
 DARK_GOLD = (184, 134, 11)
 LIGHT_GOLD = (255, 240, 150)
