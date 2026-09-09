@@ -27,10 +27,14 @@ def load_data():
                 return json.load(f)
         except:
             return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 
-                    'passive_level': 0, 'inventory': [], 'inventory_level': None, 'active_multiplier': 1.0}
+                    'passive_level': 0, 'inventory': [], 'inventory_level': None, 
+                    'active_multiplier': 1.0, 'achievements': [], 
+                    'unlocked_achievements': [], 'total_earned': 0}
     else:
         return {'money': 0, 'multiplier': 0, 'click_count': 0, 'passive_income': 0, 
-                'passive_level': 0, 'inventory': [], 'inventory_level': None, 'active_multiplier': 1.0}
+                'passive_level': 0, 'inventory': [], 'inventory_level': None, 
+                'active_multiplier': 1.0, 'achievements': [], 
+                'unlocked_achievements': [], 'total_earned': 0}
 
 def save_data(data):
     with open(DATA_FILE, 'w', encoding='utf-8') as f:
@@ -265,6 +269,106 @@ class ShopItem:
                 return 'click'
         return None
 
+class AchievementItem:
+    def __init__(self, x, y, size, ach_id):
+        self.rect = pygame.Rect(x, y, size, size)
+        self.size = size
+        self.ach_id = ach_id
+        self.is_hovered = False
+        
+    def draw(self, surface, font_tiny, font_mini, texture, is_unlocked):
+        shadow_rect = self.rect.copy()
+        shadow_rect.x += 2
+        shadow_rect.y += 2
+        pygame.draw.rect(surface, (0, 0, 0, 80), shadow_rect, border_radius=10)
+        
+        if self.is_hovered:
+            pygame.draw.rect(surface, (80, 80, 80), self.rect, border_radius=10)
+            border_color = GOLD if is_unlocked else (80, 80, 80)
+            pygame.draw.rect(surface, border_color, self.rect, 3, border_radius=10)
+        else:
+            if is_unlocked:
+                pygame.draw.rect(surface, (40, 40, 40), self.rect, border_radius=10)
+                border_color = GOLD
+            else:
+                pygame.draw.rect(surface, (20, 20, 20), self.rect, border_radius=10)
+                border_color = (60, 60, 60)
+            pygame.draw.rect(surface, border_color, self.rect, 2, border_radius=10)
+        
+        if texture:
+            tex_rect = texture.get_rect(center=(self.rect.centerx, self.rect.centery - 5))
+            if is_unlocked:
+                surface.blit(texture, tex_rect)
+            else:
+                dark_tex = texture.copy()
+                dark_tex.fill((60, 60, 60, 180), None, pygame.BLEND_RGBA_MULT)
+                surface.blit(dark_tex, tex_rect)
+        else:
+            icon = "" if is_unlocked else ""
+            icon_text = font_tiny.render(icon, True, border_color)
+            icon_rect = icon_text.get_rect(center=(self.rect.centerx, self.rect.centery - 5))
+            surface.blit(icon_text, icon_rect)
+        
+        status_icon = "" if is_unlocked else ""
+        status_color = GREEN if is_unlocked else (60, 60, 60)
+        status_text = font_mini.render(status_icon, True, status_color)
+        status_rect = status_text.get_rect(topright=(self.rect.right - 5, self.rect.top + 5))
+        surface.blit(status_text, status_rect)
+        
+    def draw_tooltip(self, surface, font_tiny, font_mini, mouse_pos, is_unlocked):
+        if not self.is_hovered:
+            return
+        
+        ach_data = ACHIEVEMENTS[self.ach_id]
+        
+        tooltip_width = 200
+        tooltip_height = 55
+        tooltip_x = mouse_pos[0] - tooltip_width // 2
+        tooltip_y = mouse_pos[1] + 15
+        
+        if tooltip_y + tooltip_height > WINDOW_HEIGHT - 50:
+            tooltip_y = mouse_pos[1] - tooltip_height - 15
+        
+        if tooltip_x < 5:
+            tooltip_x = 5
+        elif tooltip_x + tooltip_width > WINDOW_WIDTH - 5:
+            tooltip_x = WINDOW_WIDTH - tooltip_width - 5
+        
+        tooltip_rect = pygame.Rect(tooltip_x, tooltip_y, tooltip_width, tooltip_height)
+        pygame.draw.rect(surface, (20, 20, 20, 240), tooltip_rect, border_radius=8)
+        border_color = GOLD if is_unlocked else (80, 80, 80)
+        pygame.draw.rect(surface, border_color, tooltip_rect, 1, border_radius=8)
+        
+        name_color = GOLD if is_unlocked else (80, 80, 80)
+        name_text = font_tiny.render(ach_data['name'], True, name_color)
+        name_rect = name_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 12))
+        surface.blit(name_text, name_rect)
+        
+        if is_unlocked:
+            desc_text = f"{ach_data['description']}"
+            desc_color = LIGHT_GRAY
+        else:
+            desc_text = f"{ach_data['description']}"
+            desc_color = (80, 80, 80)
+        
+        desc_surf = font_mini.render(desc_text, True, desc_color)
+        desc_rect = desc_surf.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 32))
+        surface.blit(desc_surf, desc_rect)
+        
+        if is_unlocked:
+            status_text = font_mini.render("Получено", True, GREEN)
+            status_rect = status_text.get_rect(center=(tooltip_rect.centerx, tooltip_rect.y + 46))
+            surface.blit(status_text, status_rect)
+        
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEMOTION:
+            self.is_hovered = self.rect.collidepoint(event.pos)
+            return False
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if self.is_hovered and event.button == 1:
+                return 'click'
+        return None
+
 class InventorySlot:
     def __init__(self, x, y, size=50):
         self.rect = pygame.Rect(x, y, size, size)
@@ -458,6 +562,9 @@ class ClickerGame:
         self.inventory = self.data.get('inventory', [])
         self.inventory_level = self.data.get('inventory_level', None)
         self.active_multiplier = self.data.get('active_multiplier', 1.0)
+        self.achievements = self.data.get('achievements', [])
+        self.unlocked_achievements = self.data.get('unlocked_achievements', [])
+        self.total_earned = self.data.get('total_earned', 0)
         
         self.textures = {}
         self.load_textures()
@@ -477,6 +584,8 @@ class ClickerGame:
         self.hovered_item_info = None
         self.active_click_multiplier = 1.0
         self.case_chance_multiplier = 1.0
+        self.achievement_notifications = []
+        self.achievement_items = []
         
         self.fullscreen = False
         self.scale_factor = 1.0
@@ -593,6 +702,18 @@ class ClickerGame:
                     self.textures[level_id] = None
             else:
                 self.textures[level_id] = None
+        
+        for ach_id, ach_data in ACHIEVEMENTS.items():
+            path = os.path.join(TEXTURES_DIR, "achievements", f"{ach_data['texture']}.png")
+            if os.path.exists(path):
+                try:
+                    tex = pygame.image.load(path).convert_alpha()
+                    tex = pygame.transform.scale(tex, (40, 40))
+                    self.textures[f"achievements/{ach_data['texture']}"] = tex
+                except:
+                    self.textures[f"achievements/{ach_data['texture']}"] = None
+            else:
+                self.textures[f"achievements/{ach_data['texture']}"] = None
                 
     def create_buttons(self):
         self.click_button = Button(
@@ -653,6 +774,15 @@ class ClickerGame:
             35,
             "Магазин",
             'shop'
+        )
+        
+        self.achievements_tab_button = TabButton(
+            265,
+            WINDOW_HEIGHT - 45,
+            80,
+            35,
+            "Достижения",
+            'achievements'
         )
         
     def create_shop(self):
@@ -1048,13 +1178,15 @@ class ClickerGame:
                 elif ITEMS[item_id]['type'] == 'rob':
                     rob_bonuses.append(ITEMS[item_id]['bonus'])
         
+        achievement_limit = max(1, len(self.unlocked_achievements))
+        
         act_bonuses.sort(reverse=True)
-        top_acts = act_bonuses[:5]
+        top_acts = act_bonuses[:achievement_limit]
         for bonus in top_acts:
             active_multiplier += bonus
         
         rob_bonuses.sort(reverse=True)
-        top_robs = rob_bonuses[:5]
+        top_robs = rob_bonuses[:achievement_limit]
         for bonus in top_robs:
             case_multiplier += bonus
         
@@ -1160,13 +1292,112 @@ class ClickerGame:
             surf = font.render(text['text'], True, text['color'])
             surf.set_alpha(max(0, text['alpha']))
             self.screen.blit(surf, (text['x'] - surf.get_width()//2, text['y']))
+    
+    def check_achievements(self):
+        new_achievements = []
+        for ach_id, ach_data in ACHIEVEMENTS.items():
+            if ach_id in self.unlocked_achievements:
+                continue
+            if self.total_earned >= ach_data['condition']:
+                new_achievements.append(ach_id)
+                self.unlocked_achievements.append(ach_id)
+                self.data_changed = True
+                self.achievement_notifications.append({
+                    'ach_id': ach_id,
+                    'timer': 180,
+                    'y': WINDOW_HEIGHT // 2 - 50,
+                    'alpha': 255
+                })
+        
+        if new_achievements:
+            self.save_game()
+    
+    def draw_achievement_notifications(self):
+        for notif in self.achievement_notifications[:]:
+            ach_id = notif['ach_id']
+            ach_data = ACHIEVEMENTS[ach_id]
+            
+            if notif['timer'] > 150:
+                alpha = int(255 * (notif['timer'] - 150) / 30)
+            elif notif['timer'] < 30:
+                alpha = int(255 * notif['timer'] / 30)
+            else:
+                alpha = 255
+            
+            notif['alpha'] = alpha
+            
+            width = 400
+            height = 80
+            x = WINDOW_WIDTH // 2 - width // 2
+            y = notif['y']
+            
+            surf = pygame.Surface((width, height), pygame.SRCALPHA)
+            pygame.draw.rect(surf, (0, 0, 0, alpha // 2), (0, 0, width, height), border_radius=15)
+            pygame.draw.rect(surf, (GOLD[0], GOLD[1], GOLD[2], alpha), (0, 0, width, height), 3, border_radius=15)
+            
+            title_text = self.font_small.render("Достижение получено!", True, (GOLD[0], GOLD[1], GOLD[2], alpha))
+            title_rect = title_text.get_rect(center=(width // 2, 25))
+            surf.blit(title_text, title_rect)
+            
+            name_text = self.font_medium.render(ach_data['name'], True, (255, 255, 255, alpha))
+            name_rect = name_text.get_rect(center=(width // 2, 55))
+            surf.blit(name_text, name_rect)
+            
+            self.screen.blit(surf, (x, y))
+            
+            notif['timer'] -= 1
+            if notif['timer'] <= 0:
+                self.achievement_notifications.remove(notif)
+    
+    def draw_achievements_tab(self):
+        title = self.font_medium.render("ДОСТИЖЕНИЯ", True, GOLD)
+        title_rect = title.get_rect(center=(WINDOW_WIDTH//2, 70 + OFFSET_Y))
+        self.screen.blit(title, title_rect)
+        
+        count_text = self.font_small.render(f"Получено: {len(self.unlocked_achievements)} / {len(ACHIEVEMENTS)}", True, LIGHT_GRAY)
+        count_rect = count_text.get_rect(center=(WINDOW_WIDTH//2, 100 + OFFSET_Y))
+        self.screen.blit(count_text, count_rect)
+        
+        item_size = 60
+        spacing = 8
+        cols = 7
+        total_width = cols * item_size + (cols - 1) * spacing
+        start_x = (WINDOW_WIDTH - total_width) // 2
+        start_y = 130 + OFFSET_Y
+        
+        mouse_pos = pygame.mouse.get_pos()
+        
+        self.achievement_items = []
+        for i, ach_id in enumerate(ACHIEVEMENT_ORDER):
+            row = i // cols
+            col = i % cols
+            x = start_x + col * (item_size + spacing)
+            y = start_y + row * (item_size + spacing)
+            ach_item = AchievementItem(x, y, item_size, ach_id)
+            self.achievement_items.append(ach_item)
+        
+        for ach_item in self.achievement_items:
+            ach_id = ach_item.ach_id
+            is_unlocked = ach_id in self.unlocked_achievements
+            texture = self.textures.get(f"achievements/{ACHIEVEMENTS[ach_id]['texture']}")
+            
+            ach_item.handle_event(pygame.event.Event(pygame.MOUSEMOTION, {'pos': mouse_pos}))
+            
+            ach_item.draw(self.screen, self.font_tiny, self.font_mini, texture, is_unlocked)
+        
+        for ach_item in self.achievement_items:
+            is_unlocked = ach_item.ach_id in self.unlocked_achievements
+            ach_item.draw_tooltip(self.screen, self.font_tiny, self.font_mini, mouse_pos, is_unlocked)
             
     def handle_click(self):
         base_earnings = 1 + self.multiplier + getattr(self, 'item_bonus', 0)
         earnings = int(base_earnings * getattr(self, 'active_click_multiplier', 1.0))
         self.money += earnings
+        self.total_earned += earnings
         self.click_count += 1
         self.data_changed = True
+        
+        self.check_achievements()
         
         mouse_x, mouse_y = pygame.mouse.get_pos()
         self.add_floating_text(mouse_x, mouse_y - 30, f"+{format_number(earnings)}")
@@ -1344,8 +1575,11 @@ class ClickerGame:
             
             if self.passive_timer >= required_ticks:
                 self.money += total_income
+                self.total_earned += total_income
                 self.passive_timer = 0
                 self.data_changed = True
+                self.check_achievements()
+                
                 if self.current_tab == 'main':
                     self.add_floating_text(
                         WINDOW_WIDTH//2,
@@ -1364,7 +1598,10 @@ class ClickerGame:
                 'passive_level': self.passive_level,
                 'inventory': self.inventory,
                 'inventory_level': self.inventory_level,
-                'active_multiplier': self.active_click_multiplier
+                'active_multiplier': self.active_click_multiplier,
+                'achievements': self.achievements,
+                'unlocked_achievements': self.unlocked_achievements,
+                'total_earned': self.total_earned
             }
             save_data(self.data)
             self.data_changed = False
@@ -1738,6 +1975,10 @@ class ClickerGame:
                 if action == 'click':
                     self.current_tab = 'shop'
                 
+                action = self.achievements_tab_button.handle_event(event)
+                if action == 'click':
+                    self.current_tab = 'achievements'
+                
                 if self.current_tab == 'main':
                     action = self.click_button.handle_event(event)
                     if action == 'click':
@@ -1838,6 +2079,10 @@ class ClickerGame:
                         action = shop_item.handle_event(event)
                         if action == 'click':
                             self.buy_item(shop_item.item_id)
+                
+                elif self.current_tab == 'achievements':
+                    for ach_item in self.achievement_items:
+                        ach_item.handle_event(event)
             
             self.update_floating_texts()
             self.update_passive_income()
@@ -1851,10 +2096,12 @@ class ClickerGame:
             self.main_tab_button.is_active = (self.current_tab == 'main')
             self.inventory_tab_button.is_active = (self.current_tab == 'inventory')
             self.shop_tab_button.is_active = (self.current_tab == 'shop')
+            self.achievements_tab_button.is_active = (self.current_tab == 'achievements')
             
             self.main_tab_button.draw(self.screen, self.font_mini)
             self.inventory_tab_button.draw(self.screen, self.font_mini)
             self.shop_tab_button.draw(self.screen, self.font_mini)
+            self.achievements_tab_button.draw(self.screen, self.font_mini)
             
             if self.current_tab == 'main':
                 self.draw_stats()
@@ -1863,8 +2110,12 @@ class ClickerGame:
                 self.draw_inventory_tab()
             elif self.current_tab == 'shop':
                 self.draw_shop_tab()
+            elif self.current_tab == 'achievements':
+                self.draw_achievements_tab()
                 
             self.draw_floating_texts()
+            
+            self.draw_achievement_notifications()
             
             if self.dragging_item is not None and self.textures.get(self.dragging_item):
                 tex = self.textures[self.dragging_item]
