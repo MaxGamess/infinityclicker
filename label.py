@@ -1460,3 +1460,108 @@ ITEM_ORDER = sorted(ITEMS.keys(), key=lambda x: ITEMS[x].get('price', 0), revers
 
 INVENTORY_LEVEL_ORDER = ['wooden_inver', 'stone_inver', 'copper_inver', 'iron_inver', 
                          'golden_inver', 'emerald_inver', 'diamond_inver']
+
+ACHIEVEMENTS = {
+    'novice': {
+        'name': 'Новичок',
+        'texture': 'act1',
+        'condition': 100,
+        'description': 'Заработать 100 монет',
+        'color': GOLD
+    },
+    'expert': {
+        'name': 'Знаток',
+        'texture': 'act2',
+        'condition': 1000,
+        'description': 'Заработать 1К монет',
+        'color': GOLD
+    },
+    'businessman': {
+        'name': 'Бизнесмен',
+        'texture': 'act3',
+        'condition': 100000,
+        'description': 'Заработать 100К монет',
+        'color': GOLD
+    },
+    'rich': {
+        'name': 'Богач',
+        'texture': 'act4',
+        'condition': 1000000,
+        'description': 'Заработать 1М монет',
+        'color': GOLD
+    },
+    'millionaire': {
+        'name': 'Миллионер',
+        'texture': 'act5',
+        'condition': 10000000,
+        'description': 'Заработать 10М монет',
+        'color': GOLD
+    },
+    'organization': {
+        'name': 'Организация',
+        'texture': 'act6',
+        'condition': 100000000,
+        'description': 'Заработать 100М монет',
+        'color': GOLD
+    },
+    'company': {
+        'name': 'Компания',
+        'texture': 'act7',
+        'condition': 1000000000,
+        'description': 'Заработать 1B монет',
+        'color': GOLD
+    },
+    'billionaire': {
+        'name': 'Миллиардер',
+        'texture': 'act8',
+        'condition': 10000000000,
+        'description': 'Заработать 10B монет',
+        'color': GOLD
+    },
+    'corporation': {
+        'name': 'Корпорация',
+        'texture': 'act9',
+        'condition': 100000000000,
+        'description': 'Заработать 100B монет',
+        'color': GOLD
+    },
+    'elon': {
+        'name': 'Илон',
+        'texture': 'act10',
+        'condition': 1000000000000,
+        'description': 'Заработать 1Т монет',
+        'color': GOLD
+    },
+    'trillionaire': {
+        'name': 'Триллионер',
+        'texture': 'act11',
+        'condition': 10000000000000,
+        'description': 'Заработать 10Т монет',
+        'color': GOLD
+    },
+    'magnat': {
+        'name': 'Магнат',
+        'texture': 'act12',
+        'condition': 100000000000000,
+        'description': 'Заработать 100Т монет',
+        'color': GOLD
+    },
+    'king': {
+        'name': 'Король',
+        'texture': 'act13',
+        'condition': 1000000000000000,
+        'description': 'Заработать 1Q монет',
+        'color': GOLD
+    },
+    'imperator': {
+        'name': 'Император',
+        'texture': 'act14',
+        'condition': 10000000000000000,
+        'description': 'Заработать 10Q монет',
+        'color': GOLD
+    }
+}
+
+ACHIEVEMENT_ORDER = ['novice', 'expert', 'businessman', 'rich', 'millionaire', 
+                     'organization', 'company', 'billionaire', 'corporation', 
+                     'elon', 'trillionaire', 'magnat', 'king', 'imperator']
